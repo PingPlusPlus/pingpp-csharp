@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pingpp", "pingpp\pingpp.csproj", "{AA23DD84-E82D-4D6F-8034-D35C8083F24A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Example\Example.csproj", "{83ED053C-C339-46A2-A8E3-3B8E9264E468}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{59CDF32A-AADA-4D70-94C0-EDE828616914}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA23DD84-E82D-4D6F-8034-D35C8083F24A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA23DD84-E82D-4D6F-8034-D35C8083F24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA23DD84-E82D-4D6F-8034-D35C8083F24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA23DD84-E82D-4D6F-8034-D35C8083F24A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83ED053C-C339-46A2-A8E3-3B8E9264E468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83ED053C-C339-46A2-A8E3-3B8E9264E468}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83ED053C-C339-46A2-A8E3-3B8E9264E468}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83ED053C-C339-46A2-A8E3-3B8E9264E468}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59CDF32A-AADA-4D70-94C0-EDE828616914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59CDF32A-AADA-4D70-94C0-EDE828616914}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59CDF32A-AADA-4D70-94C0-EDE828616914}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59CDF32A-AADA-4D70-94C0-EDE828616914}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
