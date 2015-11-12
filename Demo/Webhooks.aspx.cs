@@ -74,7 +74,7 @@ namespace Demo
         {
             byte[] SignedData = Convert.FromBase64String(str_SignedData);
 
-            ASCIIEncoding ByteConverter = new ASCIIEncoding();
+            UTF8Encoding ByteConverter = new UTF8Encoding();
             byte[] DataToVerify = ByteConverter.GetBytes(str_DataToVerify);
             try
             {
