@@ -11,7 +11,7 @@ namespace Example.Example
     {
         public static Event Example()
         {
-            var data = ReadFileToString(@"data.txt");
+            var data = ReadFileToString(@"../../data.txt");
             var evt = Webhooks.ParseWebhook(data);
             Console.WriteLine(evt);
 

@@ -106,5 +106,3 @@ Backup*/
 UpgradeLog*.XML
 *.cmd
 *.nupkg
-
-*.txt

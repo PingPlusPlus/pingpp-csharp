@@ -17,8 +17,8 @@ namespace Example.Example
         public static bool Example()
         {
             const string sig = "BX5sToHUzPSJvAfXqhtJicsuPjt3yvq804PguzLnMruCSvZ4C7xYS4trdg1blJPh26eeK/P2QfCCHpWKedsRS3bPKkjAvugnMKs+3Zs1k+PshAiZsET4sWPGNnf1E89Kh7/2XMa1mgbXtHt7zPNC4kamTqUL/QmEVI8LJNq7C9P3LR03kK2szJDhPzkWPgRyY2YpD2eq1aCJm0bkX9mBWTZdSYFhKt3vuM1Qjp5PWXk0tN5h9dNFqpisihK7XboB81poER2SmnZ8PIslzWu2iULM7VWxmEDA70JKBJFweqLCFBHRszA8Nt3AXF0z5qe61oH1oSUmtPwNhdQQ2G5X3g==";
-            const string dataPath = @"data.txt";
-            const string path = @"key.pem";
+            const string dataPath = @"../../data.txt";
+            const string path = @"../../key.pem";
 
             var verified = VerifySignedHash(ReadFileToString(dataPath), sig, path);
             Console.WriteLine(verified ? "Verify Succeed" : "Verify Failed");

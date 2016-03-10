@@ -37,7 +37,7 @@ namespace Pingpp.Models
         public Dictionary<string, object> Metadata { get; set; }
 
         [JsonProperty("sources")]
-        public object Sources { get; set; }
+        public CardList Sources { get; set; }
 
         [JsonProperty("default_source")]
         public string DefaultSource { get; set; }
