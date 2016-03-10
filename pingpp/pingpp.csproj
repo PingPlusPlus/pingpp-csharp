@@ -52,10 +52,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exception\PingppException.cs" />
+    <Compile Include="Models\Card.cs" />
+    <Compile Include="Models\CardList.cs" />
+    <Compile Include="Models\CardInfo.cs" />
     <Compile Include="Models\Charge.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\CustomerList.cs" />
     <Compile Include="Models\EventList.cs" />
     <Compile Include="Models\RefundList.cs" />
     <Compile Include="Models\RedEnvelopeList.cs" />
+    <Compile Include="Models\SmsCode.cs" />
+    <Compile Include="Models\Token.cs" />
     <Compile Include="Models\TransferList.cs" />
     <Compile Include="Models\ChargeList.cs" />
     <Compile Include="Models\Error.cs" />
@@ -68,6 +75,8 @@
     <Compile Include="Net\Requestor.cs" />
     <Compile Include="Pingpp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\OAuthResult.cs" />
+    <Compile Include="Utils\RsaUtils.cs" />
     <Compile Include="Utils\WxPubUtils.cs" />
   </ItemGroup>
   <ItemGroup>

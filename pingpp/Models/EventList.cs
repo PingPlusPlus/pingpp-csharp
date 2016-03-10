@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
-using pingpp;
 
-namespace pingpp.Models
+namespace Pingpp.Models
 {
     public class EventList : Pingpp
     {
         [JsonProperty("object")]
-        public String Object { get; set; }
+        public string Object { get; set; }
         [JsonProperty("url")]
-        public String Url { get; set; }
+        public string Url { get; set; }
         [JsonProperty("has_more")]
-        public Boolean Has_more { get; set; }
+        public bool HasMore { get; set; }
         [JsonProperty("data")]
-        public IEnumerable<Charge> Data { get; set; }
+        public IEnumerable<Event> Data { get; set; }
     }
 }

@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Net;
-using pingpp.Models;
+using Pingpp.Models;
 
-namespace pingpp.Exception
+namespace Pingpp.Exception
 {
     [Serializable]
     public class PingppException : ApplicationException
@@ -23,7 +18,6 @@ namespace pingpp.Exception
             : base(message)
         {
         }
-
 
         public PingppException(Error pingppError, HttpStatusCode httpStatusCode, string type = null, string message = null)
             : base(message)

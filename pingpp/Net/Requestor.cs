@@ -1,142 +1,103 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
-using Newtonsoft.Json;
 using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
 using System.Web;
-using System.Security.Cryptography.X509Certificates;
-using System.Collections.Specialized;
-using System.Reflection;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.Globalization;
-using pingpp.Models;
-using pingpp.Exception;
-using System.Timers;
+using Pingpp.Exception;
+using Pingpp.Models;
+using Pingpp.Utils;
 
-
-
-
-namespace pingpp.Net
+namespace Pingpp.Net
 {
     internal class Requestor : Pingpp
     {
-        private static string getAuthenrization(string apiKey)
+        internal static HttpWebRequest GetRequest(string path, string method, string sign)
         {
-            return string.Format("Bearer {0}", apiKey);
-        }
-
-        internal static HttpWebRequest GetRequest(string path, string method, string key)
-        {
-            string url = apiBase + path;
-            var request = (HttpWebRequest)WebRequest.Create(url);
-            request.Headers.Add("Authorization", getAuthenrization(key));
-            request.Headers.Add("Pingplusplus-Version", apiVersion);
-            request.Headers.Add("Accept-Language", acceptLanguage);
-            request.UserAgent = "Pingpp C# SDK version" + VERSION;
+            var request = (HttpWebRequest)WebRequest.Create(ApiBase + path);
+            request.Headers.Add("Authorization", string.Format("Bearer {0}", ApiKey));
+            request.Headers.Add("Pingplusplus-Version", ApiVersion);
+            request.Headers.Add("Accept-Language", AcceptLanguage);
+            if (!string.IsNullOrEmpty(sign))
+            {
+                request.Headers.Add("Pingplusplus-Signature", sign);
+            }
+            request.UserAgent = "Pingpp C# SDK version" + Version;
             request.ContentType = "application/json;charset=utf-8";
-            request.Timeout = defaultTimeout;
-            request.ReadWriteTimeout = defaultReadAndWriteTimeout;
+            request.Timeout = DefaultTimeout;
+            request.ReadWriteTimeout = DefaultReadAndWriteTimeout;
             request.Method = method;
+
             return request;
         }
 
-
-        internal static string DoRequest(string path, string method, Dictionary<String, Object> param = null)
+        internal static string DoRequest(string path, string method, Dictionary<string, object> param = null)
         {
-
-            string result = null;
-            string body = null;
-            string key = apiKey;
-            HttpWebResponse response;
-            HttpWebRequest webRequest = GetRequest(path, method, key);
-
-            if ("POST".Equals(method.ToUpper()))
+            if (string.IsNullOrEmpty(ApiKey))
             {
-                if (param != null)
+                throw new PingppException("No API key provided.  (HINT: set your API key using " +
+                "\"Pingpp::setApiKey(<API-KEY>)\".  You can generate API keys from " +
+                "the Pingpp web interface.  See https://pingxx.com/document/api for " +
+                "details.");
+            }
+            try
+            {
+                HttpWebRequest req;
+                HttpWebResponse res;
+                method = method.ToUpper();
+                switch (method)
                 {
-                    body = JsonConvert.SerializeObject(param, Formatting.Indented);
-                }
-                else
-                {
-                    throw new PingppException("request params for request is empty");
-                }
-
-                try
-                {
-                    using (var streamWriter = new StreamWriter(webRequest.GetRequestStream()))
-                    {
-                        streamWriter.Write(body);
-                        streamWriter.Flush();
-                        streamWriter.Close();
-
-                        using (response = webRequest.GetResponse() as HttpWebResponse)
+                    case "GET":
+                    case "DELETE":
+                        req = GetRequest(path, method, "");
+                        using (res = req.GetResponse() as HttpWebResponse)
                         {
-
-                            return ReadStream(response.GetResponseStream());
+                            return res == null ? null : ReadStream(res.GetResponseStream());
                         }
-                    }
-                }
-
-
-                catch (WebException e)
-                {
-
-                    if (e.Response != null)
-                    {
-                        var statusCode = ((HttpWebResponse)e.Response).StatusCode;
-
-                        var errors = new Error();
-
-
-                        errors = Mapper<Error>.MapFromJson(ReadStream(e.Response.GetResponseStream()), "error");
-
-                        throw new PingppException(errors, statusCode, errors.ErrorType, errors.Message);
-                    }
-                    else
-                    {
-                        throw new PingppException(e.Message.ToString());
-                    }
-
-
+                    case "POST":
+                    case "PUT":
+                        if (param == null)
+                        {
+                            throw new PingppException("Request params is empty");
+                        }
+                        var body = JsonConvert.SerializeObject(param, Formatting.Indented);
+                        string sign;
+                        try
+                        {
+                            sign = RsaUtils.RsaSign(body, PrivateKey);
+                        }
+                        catch (System.Exception e)
+                        {
+                            throw new PingppException("Sign request error." + e.Message);
+                        }
+                        req = GetRequest(path, method, sign);
+                        using (var streamWriter = new StreamWriter(req.GetRequestStream()))
+                        {
+                            streamWriter.Write(body);
+                            streamWriter.Flush();
+                            streamWriter.Close();
+                        }
+                        using (res = req.GetResponse() as HttpWebResponse)
+                        {
+                            return res == null ? null : ReadStream(res.GetResponseStream());
+                        }
+                    default:
+                        return null;
                 }
             }
-            else if ("GET".Equals(method.ToUpper()))
+            catch (WebException e)
             {
-                try
-                {
-                    using (response = webRequest.GetResponse() as HttpWebResponse)
-                    {
-                        return ReadStream(response.GetResponseStream());
-                    }
-                }
-                catch (WebException e)
-                {
-                    if (e.Response != null)
-                    {
-                        var statusCode = ((HttpWebResponse)e.Response).StatusCode;
+                if (e.Response == null) throw new WebException(e.Message);
+                var statusCode = ((HttpWebResponse)e.Response).StatusCode;
+                var errors = Mapper<Error>.MapFromJson(ReadStream(e.Response.GetResponseStream()), "error");
 
-                        var errors = new Error();
-
-
-                        errors = Mapper<Error>.MapFromJson(ReadStream(e.Response.GetResponseStream()), "error");
-
-                        throw new PingppException(errors, statusCode, errors.ErrorType, errors.Message);
-                    }
-                    else
-                    {
-                        throw new WebException(e.Message.ToString());
-                    }
-                }
+                throw new PingppException(errors, statusCode, errors.ErrorType, errors.Message);
             }
-
-            return result;
         }
 
-        //读取 response 流
         private static string ReadStream(Stream stream)
         {
             using (var reader = new StreamReader(stream, Encoding.UTF8))
@@ -145,134 +106,105 @@ namespace pingpp.Net
             }
         }
 
-
-        internal static Dictionary<String, String> FormatParam(Dictionary<String, Object> param)
+        internal static Dictionary<string, string> FormatParams(Dictionary<string, object> param)
         {
             if (param == null)
             {
-                return new Dictionary<String, String>();
+                return new Dictionary<string, string>();
             }
-            Dictionary<String, String> formattedParam = new Dictionary<string, string>();
-            foreach (KeyValuePair<String, Object> dic in param)
+            var formattedParam = new Dictionary<string, string>();
+            foreach (var dic in param)
             {
-                String key = dic.Key;
-                Object value = dic.Value;
-                if (value is Dictionary<String, String>)
+                var dicts = dic.Value as Dictionary<string, string>;
+                if (dicts != null)
                 {
-
-                    Dictionary<String, Object> formatNestedDic = new Dictionary<String, Object>();
-
-                    foreach (KeyValuePair<String, String> nestedDict in (Dictionary<String, String>)value)
+                    var formatNestedDic = new Dictionary<string, object>();
+                    foreach (var nestedDict in dicts)
                     {
-                        formatNestedDic.Add(String.Format("{0}[{1}]", key, nestedDict.Key), nestedDict.Value.ToString());
+                        formatNestedDic.Add(string.Format("{0}[{1}]", dic.Key, nestedDict.Key), nestedDict.Value);
                     }
 
-                    foreach (KeyValuePair<String, String> nestedDict in FormatParam(formatNestedDic))
+                    foreach (var nestedDict in FormatParams(formatNestedDic))
                     {
                         formattedParam.Add(nestedDict.Key, nestedDict.Value);
                     }
                 }
-                else if (value is Dictionary<String, Object>)
+                else if (dic.Value is Dictionary<string, object>)
                 {
-                    Dictionary<string, Object> formatNestedDic = new Dictionary<string, Object>();
+                    var formatNestedDic = new Dictionary<string, object>();
 
-                    foreach (KeyValuePair<String, Object> nestedDict in (Dictionary<String, Object>)value)
+                    foreach (var nestedDict in (Dictionary<string, object>)dic.Value)
                     {
-                        formatNestedDic.Add(String.Format("{0}[{1}]", key, nestedDict.Key), nestedDict.Value.ToString());
+                        formatNestedDic.Add(string.Format("{0}[{1}]", dic.Key, nestedDict.Key), nestedDict.Value.ToString());
                     }
 
-                    foreach (KeyValuePair<String, String> nestedDict in FormatParam(formatNestedDic))
+                    foreach (var nestedDict in FormatParams(formatNestedDic))
                     {
                         formattedParam.Add(nestedDict.Key, nestedDict.Value);
                     }
                 }
-                else if (value is IList)
+                else if (dic.Value is IList)
                 {
-                    List<Object> li = (List<Object>)value;
-                    Dictionary<string, Object> formatNestedDic = new Dictionary<string, Object>();
-                    int size = li.Count();
-                    for (int i = 0; i < size; i++)
+                    var li = (List<object>)dic.Value;
+                    var formatNestedDic = new Dictionary<string, object>();
+                    var size = li.Count();
+                    for (var i = 0; i < size; i++)
                     {
-                        formatNestedDic.Add(String.Format("{0}[{1}]", key, i), li[i]);
+                        formatNestedDic.Add(string.Format("{0}[{1}]", dic.Key, i), li[i]);
                     }
-                    foreach (KeyValuePair<string, string> nestedDict in FormatParam(formatNestedDic))
+                    foreach (var nestedDict in FormatParams(formatNestedDic))
                     {
                         formattedParam.Add(nestedDict.Key, nestedDict.Value);
                     }
                 }
-                else if ("".Equals(value))
+                else if ("".Equals(dic.Value))
                 {
-                    throw new PingppException("You cannot set '" + key + "' to an empty string. " +
+                    throw new PingppException(string.Format("You cannot set '{0}' to an empty string. " +
                         "We interpret empty strings as null in requests. " +
-                        "You may set '" + key + "' to null to delete the property.");
+                        "You may set '{0}' to null to delete the property.", dic.Key));
                 }
-                else if (value == null)
+                else if (dic.Value == null)
                 {
-                    formattedParam.Add(key, "");
+                    formattedParam.Add(dic.Key, "");
                 }
                 else
                 {
-                    formattedParam.Add(key, value.ToString());
+                    formattedParam.Add(dic.Key, dic.Value.ToString());
                 }
 
             }
             return formattedParam;
         }
 
-        internal static String createQuery(Dictionary<String, Object> param)
+        internal static string CreateQuery(Dictionary<string, object> param)
         {
-            Dictionary<String, String> flatParams = FormatParam(param);
-            StringBuilder queryStringBuffer = new StringBuilder();
-            foreach (KeyValuePair<String, String> entry in flatParams)
+            var flatParams = FormatParams(param);
+            var queryStringBuffer = new StringBuilder();
+            foreach (var entry in flatParams)
             {
                 if (queryStringBuffer.Length > 0)
                 {
                     queryStringBuffer.Append("&");
                 }
 
-                queryStringBuffer.Append(urlEncodePair(entry.Key, entry.Value));
+                queryStringBuffer.Append(UrlEncodePair(entry.Key, entry.Value));
             }
             return queryStringBuffer.ToString();
         }
 
-
-
-
-
-        internal static String urlEncodePair(String k, String v)
+        internal static string UrlEncodePair(string k, string v)
         {
-            return String.Format("{0}={1}", urlEncode(k), urlEncode(v));
+            return string.Format("{0}={1}", UrlEncode(k), UrlEncode(v));
         }
 
-
-        private static String urlEncode(String str)
+        private static string UrlEncode(string str)
         {
-            if (str == null)
-            {
-                return null;
-            }
-            else
-            {
-                HttpUtility.UrlEncode(str, Encoding.UTF8);
-                return HttpUtility.UrlEncode(str);
-            }
+            return string.IsNullOrEmpty(str) ? null : HttpUtility.UrlEncode(str, Encoding.UTF8);
         }
 
-        internal static String formatURL(String url, String query)
+        internal static string FormatUrl(string url, string query)
         {
-            if (query == null || string.IsNullOrEmpty(query))
-            {
-                return url;
-            }
-            else
-            {
-                // In some cases, URL can already contain a question mark (eg, upcoming invoice lines)
-                String separator = url.Contains("?") ? "&" : "?";
-                return String.Format("{0}{1}{2}", url, separator, query);
-            }
+            return string.IsNullOrEmpty(query) ? url : string.Format("{0}{1}{2}", url, url.Contains("?") ? "&" : "?", query);
         }
-
-
-
     }
 }

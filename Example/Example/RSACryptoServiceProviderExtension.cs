@@ -1,59 +1,56 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 
-namespace Example
+namespace Example.Example
 {
     /// <summary>Extension method for initializing a RSACryptoServiceProvider from PEM data string.</summary>  
-    public static class RSACryptoServiceProviderExtension
+    public static class RsaCryptoServiceProviderExtension
     {
         #region Methods
 
         /// <summary>Extension method which initializes an RSACryptoServiceProvider from a DER public key blob.</summary>  
-        public static void LoadPublicKeyDER(this RSACryptoServiceProvider provider, byte[] DERData)
+        public static void LoadPublicKeyDer(this RSACryptoServiceProvider provider, byte[] derData)
         {
-            byte[] RSAData = RSACryptoServiceProviderExtension.GetRSAFromDER(DERData);
-            byte[] publicKeyBlob = RSACryptoServiceProviderExtension.GetPublicKeyBlobFromRSA(RSAData);
+            byte[] rsaData = GetRsaFromDer(derData);
+            byte[] publicKeyBlob = GetPublicKeyBlobFromRsa(rsaData);
             provider.ImportCspBlob(publicKeyBlob);
         }
 
         /// <summary>Extension method which initializes an RSACryptoServiceProvider from a DER private key blob.</summary>  
-        public static void LoadPrivateKeyDER(this RSACryptoServiceProvider provider, byte[] DERData)
+        public static void LoadPrivateKeyDer(this RSACryptoServiceProvider provider, byte[] derData)
         {
-            byte[] privateKeyBlob = RSACryptoServiceProviderExtension.GetPrivateKeyDER(DERData);
+            byte[] privateKeyBlob = GetPrivateKeyDer(derData);
             provider.ImportCspBlob(privateKeyBlob);
         }
 
         /// <summary>Extension method which initializes an RSACryptoServiceProvider from a PEM public key string.</summary>  
-        public static void LoadPublicKeyPEM(this RSACryptoServiceProvider provider, string sPEM)
+        public static void LoadPublicKeyPem(this RSACryptoServiceProvider provider, string sPem)
         {
-            byte[] DERData = RSACryptoServiceProviderExtension.GetDERFromPEM(sPEM);
-            RSACryptoServiceProviderExtension.LoadPublicKeyDER(provider, DERData);
+            byte[] derData = GetDerFromPem(sPem);
+            LoadPublicKeyDer(provider, derData);
         }
 
         /// <summary>Extension method which initializes an RSACryptoServiceProvider from a PEM private key string.</summary>  
-        public static void LoadPrivateKeyPEM(this RSACryptoServiceProvider provider, string sPEM)
+        public static void LoadPrivateKeyPem(this RSACryptoServiceProvider provider, string sPem)
         {
-            byte[] DERData = RSACryptoServiceProviderExtension.GetDERFromPEM(sPEM);
-            RSACryptoServiceProviderExtension.LoadPrivateKeyDER(provider, DERData);
+            byte[] derData = GetDerFromPem(sPem);
+            provider.LoadPrivateKeyDer(derData);
         }
 
         /// <summary>Returns a public key blob from an RSA public key.</summary>  
-        internal static byte[] GetPublicKeyBlobFromRSA(byte[] RSAData)
+        internal static byte[] GetPublicKeyBlobFromRsa(byte[] rsaData)
         {
             byte[] data = null;
             UInt32 dwCertPublicKeyBlobSize = 0;
-            if (RSACryptoServiceProviderExtension.CryptDecodeObject(CRYPT_ENCODING_FLAGS.X509_ASN_ENCODING | CRYPT_ENCODING_FLAGS.PKCS_7_ASN_ENCODING,
-                new IntPtr((int)CRYPT_OUTPUT_TYPES.RSA_CSP_PUBLICKEYBLOB), RSAData, (UInt32)RSAData.Length, CRYPT_DECODE_FLAGS.NONE,
+            if (CryptDecodeObject(CRYPT_ENCODING_FLAGS.X509_ASN_ENCODING | CRYPT_ENCODING_FLAGS.PKCS_7_ASN_ENCODING,
+                new IntPtr((int)CRYPT_OUTPUT_TYPES.RSA_CSP_PUBLICKEYBLOB), rsaData, (UInt32)rsaData.Length, CRYPT_DECODE_FLAGS.NONE,
                 data, ref dwCertPublicKeyBlobSize))
             {
                 data = new byte[dwCertPublicKeyBlobSize];
-                if (!RSACryptoServiceProviderExtension.CryptDecodeObject(CRYPT_ENCODING_FLAGS.X509_ASN_ENCODING | CRYPT_ENCODING_FLAGS.PKCS_7_ASN_ENCODING,
-                    new IntPtr((int)CRYPT_OUTPUT_TYPES.RSA_CSP_PUBLICKEYBLOB), RSAData, (UInt32)RSAData.Length, CRYPT_DECODE_FLAGS.NONE,
+                if (!CryptDecodeObject(CRYPT_ENCODING_FLAGS.X509_ASN_ENCODING | CRYPT_ENCODING_FLAGS.PKCS_7_ASN_ENCODING,
+                    new IntPtr((int)CRYPT_OUTPUT_TYPES.RSA_CSP_PUBLICKEYBLOB), rsaData, (UInt32)rsaData.Length, CRYPT_DECODE_FLAGS.NONE,
                     data, ref dwCertPublicKeyBlobSize))
                     throw new Win32Exception(Marshal.GetLastWin32Error());
             }
@@ -63,17 +60,16 @@ namespace Example
         }
 
         /// <summary>Converts DER binary format to a CAPI CRYPT_PRIVATE_KEY_INFO structure.</summary>  
-        internal static byte[] GetPrivateKeyDER(byte[] DERData)
+        internal static byte[] GetPrivateKeyDer(byte[] derData)
         {
-            byte[] data = null;
-            UInt32 dwRSAPrivateKeyBlobSize = 0;
-            IntPtr pRSAPrivateKeyBlob = IntPtr.Zero;
-            if (RSACryptoServiceProviderExtension.CryptDecodeObject(CRYPT_ENCODING_FLAGS.X509_ASN_ENCODING | CRYPT_ENCODING_FLAGS.PKCS_7_ASN_ENCODING, new IntPtr((int)CRYPT_OUTPUT_TYPES.PKCS_RSA_PRIVATE_KEY),
-                DERData, (UInt32)DERData.Length, CRYPT_DECODE_FLAGS.NONE, data, ref dwRSAPrivateKeyBlobSize))
+            byte[] data;
+            UInt32 dwRsaPrivateKeyBlobSize = 0;
+            if (CryptDecodeObject(CRYPT_ENCODING_FLAGS.X509_ASN_ENCODING | CRYPT_ENCODING_FLAGS.PKCS_7_ASN_ENCODING, new IntPtr((int)CRYPT_OUTPUT_TYPES.PKCS_RSA_PRIVATE_KEY),
+                derData, (UInt32)derData.Length, CRYPT_DECODE_FLAGS.NONE, null, ref dwRsaPrivateKeyBlobSize))
             {
-                data = new byte[dwRSAPrivateKeyBlobSize];
-                if (!RSACryptoServiceProviderExtension.CryptDecodeObject(CRYPT_ENCODING_FLAGS.X509_ASN_ENCODING | CRYPT_ENCODING_FLAGS.PKCS_7_ASN_ENCODING, new IntPtr((int)CRYPT_OUTPUT_TYPES.PKCS_RSA_PRIVATE_KEY),
-                    DERData, (UInt32)DERData.Length, CRYPT_DECODE_FLAGS.NONE, data, ref dwRSAPrivateKeyBlobSize))
+                data = new byte[dwRsaPrivateKeyBlobSize];
+                if (!CryptDecodeObject(CRYPT_ENCODING_FLAGS.X509_ASN_ENCODING | CRYPT_ENCODING_FLAGS.PKCS_7_ASN_ENCODING, new IntPtr((int)CRYPT_OUTPUT_TYPES.PKCS_RSA_PRIVATE_KEY),
+                    derData, (UInt32)derData.Length, CRYPT_DECODE_FLAGS.NONE, data, ref dwRsaPrivateKeyBlobSize))
                     throw new Win32Exception(Marshal.GetLastWin32Error());
             }
             else
@@ -82,24 +78,23 @@ namespace Example
         }
 
         /// <summary>Converts DER binary format to a CAPI CERT_PUBLIC_KEY_INFO structure containing an RSA key.</summary>  
-        internal static byte[] GetRSAFromDER(byte[] DERData)
+        internal static byte[] GetRsaFromDer(byte[] derData)
         {
             byte[] data = null;
             byte[] publicKey = null;
-            CERT_PUBLIC_KEY_INFO info;
             UInt32 dwCertPublicKeyInfoSize = 0;
             IntPtr pCertPublicKeyInfo = IntPtr.Zero;
-            if (RSACryptoServiceProviderExtension.CryptDecodeObject(CRYPT_ENCODING_FLAGS.X509_ASN_ENCODING | CRYPT_ENCODING_FLAGS.PKCS_7_ASN_ENCODING, new IntPtr((int)CRYPT_OUTPUT_TYPES.X509_PUBLIC_KEY_INFO),
-                DERData, (UInt32)DERData.Length, CRYPT_DECODE_FLAGS.NONE, data, ref dwCertPublicKeyInfoSize))
+            if (CryptDecodeObject(CRYPT_ENCODING_FLAGS.X509_ASN_ENCODING | CRYPT_ENCODING_FLAGS.PKCS_7_ASN_ENCODING, new IntPtr((int)CRYPT_OUTPUT_TYPES.X509_PUBLIC_KEY_INFO),
+                derData, (UInt32)derData.Length, CRYPT_DECODE_FLAGS.NONE, data, ref dwCertPublicKeyInfoSize))
             {
                 data = new byte[dwCertPublicKeyInfoSize];
-                if (RSACryptoServiceProviderExtension.CryptDecodeObject(CRYPT_ENCODING_FLAGS.X509_ASN_ENCODING | CRYPT_ENCODING_FLAGS.PKCS_7_ASN_ENCODING, new IntPtr((int)CRYPT_OUTPUT_TYPES.X509_PUBLIC_KEY_INFO),
-                    DERData, (UInt32)DERData.Length, CRYPT_DECODE_FLAGS.NONE, data, ref dwCertPublicKeyInfoSize))
+                if (CryptDecodeObject(CRYPT_ENCODING_FLAGS.X509_ASN_ENCODING | CRYPT_ENCODING_FLAGS.PKCS_7_ASN_ENCODING, new IntPtr((int)CRYPT_OUTPUT_TYPES.X509_PUBLIC_KEY_INFO),
+                    derData, (UInt32)derData.Length, CRYPT_DECODE_FLAGS.NONE, data, ref dwCertPublicKeyInfoSize))
                 {
                     GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
                     try
                     {
-                        info = (CERT_PUBLIC_KEY_INFO)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(CERT_PUBLIC_KEY_INFO));
+                        var info = (CERT_PUBLIC_KEY_INFO)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(CERT_PUBLIC_KEY_INFO));
                         publicKey = new byte[info.PublicKey.cbData];
                         Marshal.Copy(info.PublicKey.pbData, publicKey, 0, publicKey.Length);
                     }
@@ -117,16 +112,16 @@ namespace Example
         }
 
         /// <summary>Extracts the binary data from a PEM file.</summary>  
-        internal static byte[] GetDERFromPEM(string sPEM)
+        internal static byte[] GetDerFromPem(string sPEM)
         {
             UInt32 dwSkip, dwFlags;
             UInt32 dwBinarySize = 0;
 
-            if (!RSACryptoServiceProviderExtension.CryptStringToBinary(sPEM, (UInt32)sPEM.Length, CRYPT_STRING_FLAGS.CRYPT_STRING_BASE64HEADER, null, ref dwBinarySize, out dwSkip, out dwFlags))
+            if (!CryptStringToBinary(sPEM, (UInt32)sPEM.Length, CRYPT_STRING_FLAGS.CRYPT_STRING_BASE64HEADER, null, ref dwBinarySize, out dwSkip, out dwFlags))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 
             byte[] decodedData = new byte[dwBinarySize];
-            if (!RSACryptoServiceProviderExtension.CryptStringToBinary(sPEM, (UInt32)sPEM.Length, CRYPT_STRING_FLAGS.CRYPT_STRING_BASE64HEADER, decodedData, ref dwBinarySize, out dwSkip, out dwFlags))
+            if (!CryptStringToBinary(sPEM, (UInt32)sPEM.Length, CRYPT_STRING_FLAGS.CRYPT_STRING_BASE64HEADER, decodedData, ref dwBinarySize, out dwSkip, out dwFlags))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             return decodedData;
         }
@@ -259,7 +254,7 @@ namespace Example
         /// <summary>Function from Crypto API.</summary>  
         [DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool CryptStringToBinary(string sPEM, UInt32 sPEMLength, CRYPT_STRING_FLAGS dwFlags, [Out] byte[] pbBinary, ref UInt32 pcbBinary, out UInt32 pdwSkip, out UInt32 pdwFlags);
+        internal static extern bool CryptStringToBinary(string sPem, UInt32 sPemLength, CRYPT_STRING_FLAGS dwFlags, [Out] byte[] pbBinary, ref UInt32 pcbBinary, out UInt32 pdwSkip, out UInt32 pdwFlags);
 
         /// <summary>Function from Crypto API.</summary>  
         [DllImport("crypt32.dll", SetLastError = true)]

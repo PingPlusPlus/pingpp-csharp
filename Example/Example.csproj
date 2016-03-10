@@ -38,7 +38,7 @@
       <HintPath>..\pingpp\bin\Debug\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="pingpp">
-      <HintPath>..\pingpp\bin\Debug\pingpp.dll</HintPath>
+      <HintPath>..\pingpp\obj\Debug\pingpp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,8 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entry.cs" />
+    <Compile Include="InAppExample\CardDemo.cs" />
+    <Compile Include="InAppExample\CardInfoDemo.cs" />
     <Compile Include="Example\ChargeDemo.cs" />
+    <Compile Include="InAppExample\CustomerDemo.cs" />
     <Compile Include="Example\EventDemo.cs" />
+    <Compile Include="InAppExample\InAppChargeDemo.cs" />
     <Compile Include="Example\RedEnvelopeDemo.cs" />
     <Compile Include="Example\RefundDemo.cs" />
     <Compile Include="Example\RSACryptoServiceProviderExtension.cs" />
@@ -59,13 +64,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Example\charge.txt" />
     <Content Include="Example\data.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Example\key.pem" />
+    <None Include="your_rsa_private_key.pem" />
+    <None Include="your_rsa_public_key.pem" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

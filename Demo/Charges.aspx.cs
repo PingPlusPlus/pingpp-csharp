@@ -9,31 +9,28 @@ using System.Text;
 using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using pingpp;
-using pingpp.Models;
+using Pingpp;
+using Pingpp.Models;
 using System.Security.Cryptography;
 
 namespace Demo
 {
-    public partial class Charges : System.Web.UI.Page
+    public partial class Charges : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.RequestType.ToUpper() == "POST")
+            Pingpp.Pingpp.SetApiKey("sk_test_ibbTe5jLGCi5rzfH4OqPW9KC");
+            const string appId = "app_1Gqj58ynP0mHeX1q";
+
+            if (Request.RequestType.ToUpper().Equals("POST"))
             {
                 //获取 post 的 data 
-                string inputData = ReadStream(Request.InputStream);
-                var jObject = JObject.Parse(inputData);
+                var jObject = JObject.Parse(ReadStream(Request.InputStream));
                 var amount = jObject.SelectToken("amount");
                 var channel = jObject.SelectToken("channel");
                 var orderNo = jObject.SelectToken("order_no");
 
-                Pingpp.apiKey = "sk_test_ibbTe5jLGCi5rzfH4OqPW9KC";
-
-
-
-
-                Dictionary<string, object> extra = new Dictionary<string, object>();
+                var extra = new Dictionary<string, object>();
                 if (channel.ToString().Equals("alipay_wap"))
                 {
                     extra.Add("success_url", "http://www.yourdomain.com/success");
@@ -74,32 +71,30 @@ namespace Demo
                 {
                     extra.Add("success_url", "http://www.yourdomain.com/success");
                     extra.Add("fail_url", "http://www.yourdomain.com/fail");
-                    extra.Add("token", "fjdilkkydoqlpiunchdysiqkanczxude");//32 位字符串
+                    extra.Add("token", "fjdilkkydoqlpiunchdysiqkanczxude");//32 位字符串，京东支付成功后会返回
                 }
 
-
-                Dictionary<string, string> app = new Dictionary<string, string>();
-                app.Add("id", "app_1Gqj58ynP0mHeX1q");
-
-                Dictionary<string, object> param = new Dictionary<string, object>();
-                param.Add("order_no", orderNo);
-                param.Add("amount", amount);
-                param.Add("channel", channel);
-                param.Add("currency", "cny");
-                param.Add("subject", "test");
-                param.Add("body", "tests");
-                param.Add("client_ip", "127.0.0.1");
-                param.Add("app", app);
-                param.Add("extra", extra);
+                var param = new Dictionary<string, object>
+                {
+                    {"order_no", orderNo},
+                    {"amount", amount},
+                    {"channel", channel},
+                    {"currency", "cny"},
+                    {"subject", "test"},
+                    {"body", "tests"},
+                    {"client_ip", "127.0.0.1"},
+                    {"app", new Dictionary<string, string> { { "id", appId } }},
+                    {"extra", extra}
+                };
 
                 try
                 {
-                    Charge charge = Charge.create(param);
+                    var charge = Charge.Create(param);
                     Response.Write(charge);
                 }
                 catch (Exception ex)
                 {
-                    Response.Write(ex.Message.ToString());
+                    Response.Write(ex.Message);
                 }
             }
         }

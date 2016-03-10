@@ -1,33 +1,27 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using pingpp;
-//using pingpp.Models;
-//using Newtonsoft.Json;
-//using Newtonsoft.Json.Linq;
-//namespace Example
-//{
-//    class EventDemo
-//    {
-//        static void Main(string[] args)
-//        {
-//            //设置 apikey
-//            Pingpp.apiKey = "sk_test_ibbTe5jLGCi5rzfH4OqPW9KC";
+﻿using System;
+using System.Collections.Generic;
+using Pingpp;
+using Pingpp.Models;
 
-//            //查询指定的 event
-//            Event events = Event.retrieve("evt_sATiFAMSU7Loda9uCWKUxmgo");
-//            Console.WriteLine("****查询指定 Event 对象****");
-//            Console.WriteLine(events);
-//            Console.WriteLine();
+namespace Example.Example
+{
+    public class EventDemo
+    {
+        public static Event Example()
+        {
+            //查询指定的 event
+            var evt = Event.Retrieve("evt_sATiFAMSU7Loda9uCWKUxmgo");
+            Console.WriteLine("****查询指定 Event 对象****");
+            Console.WriteLine(evt);
+            Console.WriteLine();
 
-//            //查询 event 列表
-//            Dictionary<string, object> eventParam = new Dictionary<string, object>();
-//            eventParam.Add("limit", 3);
-//            EventList eveList = Event.list(eventParam);
-//            Console.WriteLine("****查询 Event 对象列表****");
-//            Console.WriteLine(eveList); 
-//            Console.ReadKey();
-//        }
-//    }
-//}
+            //查询 event 列表
+            var eventParam = new Dictionary<string, object> {{"limit", 3}};
+            Console.WriteLine("****查询 Event 对象列表****");
+            Console.WriteLine(Event.List(eventParam));
+            Console.WriteLine();
+
+            return evt;
+        }
+    }
+}

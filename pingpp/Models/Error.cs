@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
-using System.Collections;
-using pingpp.Net;
 
-namespace pingpp.Models
+namespace Pingpp.Models
 {
     public class Error
     {

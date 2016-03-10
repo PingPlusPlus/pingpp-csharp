@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
-using System.Collections;
-using pingpp.Net;
+using Pingpp.Net;
 
 
-namespace pingpp.Models
+namespace Pingpp.Models
 {
     public class Charge : Pingpp
     {
         [JsonProperty("id")]
-        public String Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("object")]
-        public String Object { get; set; }
+        public string Object { get; set; }
 
         [JsonProperty("created")]
         public int? Created { get; set; }
@@ -30,91 +27,88 @@ namespace pingpp.Models
         public bool Refunded { get; set; }
 
         [JsonProperty("app")]
-        public String App { get; set; }
+        public string App { get; set; }
 
         [JsonProperty("channel")]
-        public String Channel { get; set; }
+        public string Channel { get; set; }
 
         [JsonProperty("order_no")]
-        public String Order_no { get; set; }
+        public string OrderNo { get; set; }
 
         [JsonProperty("client_ip")]
-        public String Client_ip { get; set; }
+        public string ClientIp { get; set; }
 
         [JsonProperty("amount")]
         public int? Amount { get; set; }
 
         [JsonProperty("amount_settle")]
-        public int? Amount_settle { get; set; }
+        public int? AmountSettle { get; set; }
 
         [JsonProperty("currency")]
-        public String Currency { get; set; }
+        public string Currency { get; set; }
 
         [JsonProperty("subject")]
-        public String Subject { get; set; }
+        public string Subject { get; set; }
 
         [JsonProperty("body")]
-        public String Body { get; set; }
+        public string Body { get; set; }
 
         [JsonProperty("extra")]
-        public Dictionary<String, Object> Extra { get; set; }
+        public Dictionary<string, object> Extra { get; set; }
 
         [JsonProperty("time_paid")]
-        public int? Time_paid { get; set; }
+        public int? TimePaid { get; set; }
 
         [JsonProperty("time_expire")]
-        public int? Time_expire { get; set; }
+        public int? TimeExpire { get; set; }
 
         [JsonProperty("time_settle")]
-        public int? Time_settle { get; set; }
+        public int? TimeSettle { get; set; }
 
         [JsonProperty("transaction_no")]
-        public String Transaction_no { get; set; }
+        public string TransactionNo { get; set; }
 
         [JsonProperty("refunds")]
         public RefundList Refunds { get; set; }
 
         [JsonProperty("amount_refunded")]
-        public int? Amount_refunded { get; set; }
+        public int? AmountRefunded { get; set; }
 
         [JsonProperty("failure_code")]
-        public String Failure_code { get; set; }
+        public string FailureCode { get; set; }
 
         [JsonProperty("failure_msg")]
-        public String Failure_msg { get; set; }
+        public string FailureMsg { get; set; }
 
         [JsonProperty("metadata")]
-        public Dictionary<String, Object> Metadata { get; set; }
+        public Dictionary<string, object> Metadata { get; set; }
 
         [JsonProperty("credential")]
-        public Object Credential { get; set; }
+        public object Credential { get; set; }
 
         [JsonProperty("description")]
-        public String Description { get; set; }
+        public string Description { get; set; }
 
+        private const string BaseUrl = "/v1/charges";
 
-        private static volatile String url = "/v1/charges";
-        public static Charge create(Dictionary<String, Object> chargeParam)
+        public static Charge Create(Dictionary<string, object> chParams)
         {
-            String charge = Requestor.DoRequest(url, "POST", chargeParam);
-            return Mapper<Charge>.MapFromJson(charge);
+            var ch = Requestor.DoRequest(BaseUrl, "POST", chParams);
+            return Mapper<Charge>.MapFromJson(ch);
         }
 
-        public static Charge retrieve(String id)
+        public static Charge Retrieve(string id)
         {
-            String urls = String.Format("{0}/{1}", url.ToString(), id.ToString());
-            String charge = Requestor.DoRequest(urls, "Get");
-            return Mapper<Charge>.MapFromJson(charge);
+            var url = string.Format("{0}/{1}", BaseUrl, id);
+            var ch = Requestor.DoRequest(url, "GET");
+            return Mapper<Charge>.MapFromJson(ch);
         }
 
-            
-
-        public static ChargeList list(Dictionary<String, Object> listParam = null)
+        public static ChargeList List(Dictionary<string, object> listParams = null)
         {
-            String query = Requestor.createQuery(listParam);
-            String urls = Requestor.formatURL(url, query);
-            String charge = Requestor.DoRequest(urls, "Get");
-            return Mapper<ChargeList>.MapFromJson(charge);
+            var url = Requestor.FormatUrl(BaseUrl, Requestor.CreateQuery(listParams));
+            var ch = Requestor.DoRequest(url, "GET");
+            return Mapper<ChargeList>.MapFromJson(ch);
         }
 
     }

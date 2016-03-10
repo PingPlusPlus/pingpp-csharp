@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pingpp", "pingpp\pingpp.csproj", "{AA23DD84-E82D-4D6F-8034-D35C8083F24A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Example\Example.csproj", "{83ED053C-C339-46A2-A8E3-3B8E9264E468}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AA23DD84-E82D-4D6F-8034-D35C8083F24A} = {AA23DD84-E82D-4D6F-8034-D35C8083F24A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{59CDF32A-AADA-4D70-94C0-EDE828616914}"
 EndProject

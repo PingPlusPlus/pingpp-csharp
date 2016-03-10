@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;  
 using System.Collections;
 using System.Web;
-using pingpp.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using pingpp.Models;
-using pingpp.Exception;
 using System.Net;
 using System.IO;
+using Pingpp.Exception;
+using Pingpp.Models;
+using Pingpp.Net;
 
 
-
-namespace pingpp.Utils
+namespace Pingpp.Utils
 {
     /// <summary>
     /// 用于微信公众号OAuth2.0鉴权，用户授权后获取授权用户唯一标识openid
@@ -23,8 +21,6 @@ namespace pingpp.Utils
     /// </summary>
     public class WxPubUtils
     {
-
-
         /// <summary>
         /// 用于生成获取授权 code 的 URL 地址，此地址用于用户身份鉴权，获取用户身份信息，同时重定向到 redirect_url
         /// </summary>
@@ -38,20 +34,19 @@ namespace pingpp.Utils
         /// TRUE 弹出授权页面,这个可以通过 openid 拿到昵称、性别、所在地
         /// </param>
         /// <returns>用于获取授权 code 的 URL 地址</returns>
-        public static String createOauthUrlForCode(String appId, String redirectUrl, Boolean moreInfo)
+        public static string CreateOauthUrlForCode(string appId, string redirectUrl, bool moreInfo)
         {
-            Dictionary<String, String> data = new Dictionary<String, String>();
-            data.Add("appid", appId);
-            data.Add("redirect_uri", redirectUrl);
-            data.Add("response_type", "code");
-            data.Add("scope", moreInfo ? "snsapi_userinfo" : "snsapi_base");
-            data.Add("state", "STATE#wechat_redirect");
-            String queryString = WxPubUtils.httpBuildQuery(data);
+            var data = new Dictionary<string, string>
+            {
+                {"appid", appId},
+                {"redirect_uri", redirectUrl},
+                {"response_type", "code"},
+                {"scope", moreInfo ? "snsapi_userinfo" : "snsapi_base"},
+                {"state", "STATE#wechat_redirect"}
+            };
 
-            return "https://open.weixin.qq.com/connect/oauth2/authorize?" + queryString;
+            return "https://open.weixin.qq.com/connect/oauth2/authorize?" + HttpBuildQuery(data);
         }
-
-
 
         /// <summary>
         /// 生成获取 openid 的 URL 地址
@@ -60,20 +55,18 @@ namespace pingpp.Utils
         /// <param name="appSecret">微信公众号应用密钥（注意保密）</param>
         /// <param name="code">获取到的 code</param>
         /// <returns>获取 openid 的 URL 地址</returns>
-        private static String createOauthUrlForOpenid(String appId, String appSecret, String code)
+        private static string CreateOauthUrlForOpenid(string appId, string appSecret, string code)
         {
-            Dictionary<String, String> data = new Dictionary<String, String>();
-            data.Add("appid", appId);
-            data.Add("secret", appSecret);
-            data.Add("code", code);
-            data.Add("grant_type", "authorization_code");
-            String queryString = WxPubUtils.httpBuildQuery(data);
+            var data = new Dictionary<string, string>
+            {
+                {"appid", appId},
+                {"secret", appSecret},
+                {"code", code},
+                {"grant_type", "authorization_code"}
+            };
 
-            return string.Format("https://api.weixin.qq.com/sns/oauth2/access_token?{0}", queryString);
+            return string.Format("https://api.weixin.qq.com/sns/oauth2/access_token?{0}", HttpBuildQuery(data));
         }
-
-
-
 
         /// <summary>
         /// 获取 openid
@@ -82,32 +75,30 @@ namespace pingpp.Utils
         /// <param name="appSecret">微信公众号应用密钥（注意保密）</param>
         /// <param name="code">获取到的 code</param>
         /// <returns>openid</returns>
-        public static String getOpenId(String appId, String appSecret, String code)
+        public static string GetOpenId(string appId, string appSecret, string code)
         {
-            String url = WxPubUtils.createOauthUrlForOpenid(appId, appSecret, code);
-            String ret = GetRequest(url);
-            OAuthResult oAuthResult = Mapper<OAuthResult>.MapFromJson(ret);
-            return oAuthResult.Openid.ToString();
+            var url = CreateOauthUrlForOpenid(appId, appSecret, code);
+            var ret = GetRequest(url);
+            var oAuthResult = Mapper<OAuthResult>.MapFromJson(ret);
+            return oAuthResult.Openid;
         }
 
 
-        private static String httpBuildQuery(Dictionary<String, String> queryString)
+        private static string HttpBuildQuery(Dictionary<string, string> queryString)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
-            foreach (KeyValuePair<String, String> kvp in queryString)
+            foreach (var kvp in queryString)
             {
                 if (sb.Length > 0)
                 {
                     sb.Append('&');
                 }
-                sb.Append(Requestor.urlEncodePair(kvp.Key, kvp.Value));
+                sb.Append(Requestor.UrlEncodePair(kvp.Key, kvp.Value));
             }
 
             return sb.ToString();
         }
-
-
 
         //读取 response 流
         private static string ReadStream(Stream stream)
@@ -133,13 +124,12 @@ namespace pingpp.Utils
             {
                 using (var response = request.GetResponse() as HttpWebResponse)
                 {
-                    return ReadStream(response.GetResponseStream());
-
+                    return response == null ? null : ReadStream(response.GetResponseStream());
                 }
             }
             catch (WebException e)
             {
-                throw new WebException(e.Message.ToString());
+                throw new WebException(e.Message);
             }
 
         }
@@ -150,21 +140,23 @@ namespace pingpp.Utils
         /// <param name="appId">微;\信公众号应用唯一标识</param>
         /// <param name="appSecret">微信公众号应用密钥（注意保密）</param>
         /// <returns>Ticket</returns>
-        public static String getJsapiTicket(String appId, String appSecret)
+        public static string GetJsApiTicket(string appId, string appSecret)
         {
-            Dictionary<String, String> data = new Dictionary<String, String>();
-            data.Add("appid", appId);
-            data.Add("secret", appSecret);
-            data.Add("grant_type", "client_credential");
-            String queryString = WxPubUtils.httpBuildQuery(data);
-            String accessTokenUrl = "https://api.weixin.qq.com/cgi-bin/token?" + queryString;
-            String resp = GetRequest(accessTokenUrl);
+            var data = new Dictionary<string, string>
+            {
+                {"appid", appId},
+                {"secret", appSecret},
+                {"grant_type", "client_credential"}
+            };
+            var queryString = HttpBuildQuery(data);
+            var accessTokenUrl = "https://api.weixin.qq.com/cgi-bin/token?" + queryString;
+            var resp = GetRequest(accessTokenUrl);
             var jObject = JObject.Parse(resp);
             data.Clear();
             data.Add("access_token", jObject.GetValue("access_token").ToString());
             data.Add("type", "jsapi");
-            queryString = WxPubUtils.httpBuildQuery(data);
-            String jsapiTicketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?" + queryString;
+            queryString = HttpBuildQuery(data);
+            var jsapiTicketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?" + queryString;
             resp = GetRequest(jsapiTicketUrl);
             var ticket = JObject.Parse(resp);
             return ticket.GetValue("ticket").ToString();
@@ -179,13 +171,12 @@ namespace pingpp.Utils
         /// <param name="url">url</param>
         /// <returns>signature</returns>
 
-        public static String getSignature(String charge, String jsapiTicket, String url)
+        public static string GetSignature(string charge, string jsapiTicket, string url)
         {
-            string signature = null;
             if (null == charge || null == jsapiTicket || string.IsNullOrEmpty(charge) || string.IsNullOrEmpty(jsapiTicket))
                 return null;
 
-            Charge chargeJson = JsonConvert.DeserializeObject<Charge>(charge);
+            var chargeJson = JsonConvert.DeserializeObject<Charge>(charge);
             var credential = chargeJson.Credential.ToString();
             if (string.IsNullOrEmpty(credential) || !chargeJson.ToString().Contains("credential"))
             {
@@ -197,50 +188,20 @@ namespace pingpp.Utils
                 return null;
             }
 
-
             var wxPub = JObject.Parse(credential);
 
-            if (credential.Contains("wx_pub"))
-            {
+            if (!credential.Contains("wx_pub")) throw new PingppException("credential doesn't contain key wx_pub");
+            var cre = wxPub.SelectToken("wx_pub");
+            cre.SelectToken("timeStamp");
 
-                var cre = wxPub.SelectToken("wx_pub");
-                var noceStr = cre.SelectToken("timeStamp");
+            // 注意这里参数名必须全部小写，且必须有序
+            var string1 = "jsapi_ticket=" + jsapiTicket +
+                             "&noncestr=" + cre.SelectToken("nonceStr") +
+                             "&timestamp=" + cre.SelectToken("timeStamp") +
+                             "&url=" + url;
 
-                // 注意这里参数名必须全部小写，且必须有序
-                String string1 = "jsapi_ticket=" + jsapiTicket +
-                    "&noncestr=" + cre.SelectToken("nonceStr").ToString() +
-                    "&timestamp=" + cre.SelectToken("timeStamp").ToString() +
-                    "&url=" + url;
-
-
-                signature = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(string1, "SHA1");
-                return signature;
-            }
-            else
-            {
-                throw new PingppException("credential doesn't contain key wx_pub");
-
-            }
+            return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(string1, "SHA1");
         }
-
-    }
-
-    class OAuthResult
-    {
-        [JsonProperty("access_token")]
-        public String Access_token { get; set; }
-
-        [JsonProperty("expires_in")]
-        public int? Expires_in { get; set; }
-
-        [JsonProperty("refresh_token")]
-        public String Refresh_token { get; set; }
-
-        [JsonProperty("openid")]
-        public String Openid { get; set; }
-
-        [JsonProperty("scope")]
-        public String Scope { get; set; }
 
     }
 }

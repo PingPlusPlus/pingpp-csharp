@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
-using System.Collections;
-using pingpp.Net;
+using Pingpp.Net;
 
-namespace pingpp.Models
+namespace Pingpp.Models
 {
     public class Event : Pingpp
     {
         [JsonProperty("id")]
-        public String Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("object")]
-        public String Object { get; set; }
+        public string Object { get; set; }
 
         [JsonProperty("livemode")]
         public bool Livemode { get; set; }
@@ -23,31 +20,32 @@ namespace pingpp.Models
         public int? Created { get; set; }
 
         [JsonProperty("data")]
-        public Dictionary<String, Object> Data { get; set; }
+        public Dictionary<string, object> Data { get; set; }
 
         [JsonProperty("pending_webhooks")]
-        public int? Pending_webhooks { get; set; }
+        public int? PendingWebhooks { get; set; }
 
         [JsonProperty("type")]
-        public String Type { get; set; }
+        public string Type { get; set; }
 
         [JsonProperty("request")]
-        public String Request { get; set; }
+        public string Request { get; set; }
 
-        private static volatile String url = "/v1/events";
-        public static Event retrieve(String id)
+        private const string BaseUrl = "/v1/events";
+
+        public static Event Retrieve(string id)
         {
-            String urls = String.Format("{0}/{1}", url.ToString(), id.ToString());
-            String events = Requestor.DoRequest(urls, "Get");
-            return Mapper<Event>.MapFromJson(events);
+            var url = string.Format("{0}/{1}", BaseUrl, id);
+            var evt = Requestor.DoRequest(url, "Get");
+            return Mapper<Event>.MapFromJson(evt);
         }
 
-        public static EventList list(Dictionary<String, Object> listParam = null)
+        public static EventList List(Dictionary<string, object> listParams = null)
         {
-            String query = Requestor.createQuery(listParam);
-            String urls = Requestor.formatURL(url, query);
-            String eventList = Requestor.DoRequest(urls, "Get");
-            return Mapper<EventList>.MapFromJson(eventList);
+            var query = Requestor.CreateQuery(listParams);
+            var url = Requestor.FormatUrl(BaseUrl, query);
+            var evtList = Requestor.DoRequest(url, "Get");
+            return Mapper<EventList>.MapFromJson(evtList);
         }     
     }
     
