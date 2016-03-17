@@ -50,7 +50,6 @@
   <ItemGroup>
     <Compile Include="Entry.cs" />
     <Compile Include="InAppExample\CardDemo.cs" />
-    <Compile Include="InAppExample\CardInfoDemo.cs" />
     <Compile Include="Example\ChargeDemo.cs" />
     <Compile Include="InAppExample\CustomerDemo.cs" />
     <Compile Include="Example\EventDemo.cs" />

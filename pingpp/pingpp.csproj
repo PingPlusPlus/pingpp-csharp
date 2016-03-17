@@ -54,7 +54,6 @@
     <Compile Include="Exception\PingppException.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\CardList.cs" />
-    <Compile Include="Models\CardInfo.cs" />
     <Compile Include="Models\Charge.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\CustomerList.cs" />

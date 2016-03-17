@@ -18,7 +18,9 @@ namespace Example.InAppExample
                 {"source", "tok_xxxxxxxxxxxxx"},
                 {"description", "Description"},
                 {"email", "xxx@xxx.com"},
-                {"app", appId}
+                {"app", appId},
+                {"sms_id", "sms_xxxxxxxxxx"},
+                {"sms_code", "123456"}
             };
 
             var cus = Customer.Create(param);

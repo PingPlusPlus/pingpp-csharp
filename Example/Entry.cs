@@ -51,7 +51,6 @@ namespace Example
         private static void InAppExamples(string appId)
         {
             InAppChargeDemo.Example(appId);
-            // CardInfoDemo.Example(appId);
             // CardDemo.Example(appId);
             // CustomerDemo.Example(appId);
         }

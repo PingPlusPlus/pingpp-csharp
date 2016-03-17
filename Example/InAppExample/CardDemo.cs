@@ -12,7 +12,11 @@ namespace Example.InAppExample
         /// </summary>
         public static Card Example(string cusId)
         {
-            var cardParams = new Dictionary<string, object> {{"source", "tok_xxxxxxxxxxxx"}};
+            var cardParams = new Dictionary<string, object> {
+                {"source", "tok_xxxxxxxxxxxx"},
+                {"sms_id", "sms_xxxxxxxxxx"},
+                {"sms_code", "123456"}
+            };
 
             var card = Card.Create(cusId, cardParams);
             Console.WriteLine("****创建 Card 对象****");

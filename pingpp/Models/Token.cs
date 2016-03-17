@@ -38,9 +38,6 @@ namespace Pingpp.Models
         [JsonProperty("sms_code")]
         public Dictionary<string, object> SmsCode { get; set; }
 
-        [JsonProperty("attachable")]
-        public string Attachable { get; set; }
-
         private const string BaseUrl = "/v1/tokens";
 
         public static Token Create(Dictionary<string, object> cardParams)
