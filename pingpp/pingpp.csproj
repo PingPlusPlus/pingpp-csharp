@@ -52,12 +52,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exception\PingppException.cs" />
+    <Compile Include="Models\BatchRefund.cs" />
+    <Compile Include="Models\BatchRefundList.cs" />
+    <Compile Include="Models\BatchTransfer.cs" />
+    <Compile Include="Models\BatchTransferList.cs" />
+    <Compile Include="Models\Customs.cs" />
+    <Compile Include="Models\Identification.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\CardList.cs" />
     <Compile Include="Models\Charge.cs" />
-    <Compile Include="Models\Customer.cs" />
-    <Compile Include="Models\CustomerList.cs" />
-    <Compile Include="Models\EventList.cs" />
     <Compile Include="Models\RefundList.cs" />
     <Compile Include="Models\RedEnvelopeList.cs" />
     <Compile Include="Models\SmsCode.cs" />
@@ -83,7 +86,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

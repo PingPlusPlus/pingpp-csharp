@@ -36,7 +36,7 @@ namespace Example.Example
             Console.WriteLine();
 
             Console.WriteLine("****查询 charge 列表****");
-            Console.WriteLine(Charge.List(new Dictionary<string, object> {{"limit", 3}}));
+            Console.WriteLine(Charge.List(appId, new Dictionary<string, object> {{"limit", 3}}));
             Console.WriteLine();
 
             return ch;

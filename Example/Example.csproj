@@ -49,9 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entry.cs" />
+    <Compile Include="Example\BatchRrefundDemo.cs" />
+    <Compile Include="Example\BatchTransferDemo.cs" />
+    <Compile Include="Example\CustomsDemo.cs" />
+    <Compile Include="Example\IdentificationDemo.cs" />
     <Compile Include="InAppExample\CardDemo.cs" />
     <Compile Include="Example\ChargeDemo.cs" />
-    <Compile Include="InAppExample\CustomerDemo.cs" />
     <Compile Include="Example\EventDemo.cs" />
     <Compile Include="InAppExample\InAppChargeDemo.cs" />
     <Compile Include="Example\RedEnvelopeDemo.cs" />

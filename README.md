@@ -1,4 +1,4 @@
-# Ping++ CSharp SDK 
+# Ping++ CSharp SDK
 
 ## 简介
 ## 版本要求
@@ -36,7 +36,7 @@ Charge ch = Charge.Retrieve(String id);
 
 #### 查询 charge 列表
 ```c#
-ChargeList chs = Charge.List(Dictionary<String, Object> listParam);
+ChargeList chs = Charge.List(,String appId,Dictionary<String, Object> listParam);
 ```
 
 ### 退款
@@ -86,16 +86,66 @@ Transfer tr = Transfer.Retrieve(String id);
 ```c#
 TransferList trs = Transfer.List(Dictionary<String, Object> listParam);
 ```
+#### 更新Transter 对象
+```C#
+Transfer.Cancel(string Id);
+```
+### 身份认证请求
+#### 创建身份认证请求
+```c#
+Identification.Identify(new Dictionary<string, object> iParams);
+```
+
+### 报关接口
+#### 请求报关接口
+```c#
+Customs.Create(Dictionary<string, object> cuParams);
+```
+
+#### 查询报关接口
+```c#
+Customs.Retrieve(string Id);
+```
+
+### 批量退款
+#### 创建 Batch refund 对象
+```c#
+BatchRefund.Create(Dictionary<string, object> btParams);
+```
+
+#### 查询 Batch refund 列表
+```c#
+BatchRefund.List(Dictionary<string, object> listParams)
+```
+
+#### 查询 Batch refund 对象
+```c#
+BatchRefund.Retrieve(string Id)
+```
+### 批量付款
+#### 创建批量付款
+```c#
+BatchTransfer.Create(Dictionary<string, object> btParams);
+```
+
+#### 获取批量付款
+```c#
+BatchTransfer.Retrieve(string batchTransterId)
+```
+#### 获取批量付款列表
+```c#
+BatchTransfer.List(Dictionary<string, object> btParams)
+```
+
+#### 取消批量付款
+```c#
+BatchTransfer.Cancel(String btId)
+```
 
 ### Event
 #### 查询指定 Event 对象
 ```c#
 Event evt = Event.Retrieve(String id);
-```
-
-#### 查询 Event 列表
-```c#
-EventList evts = Event.List(Dictionary<String, Object> listParam);
 ```
 
 详细信息请参考 [API 文档](https://pingxx.com/document/api)

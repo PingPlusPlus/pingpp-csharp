@@ -51,7 +51,7 @@ namespace Pingpp.Models
         public static Refund Create(string id, Dictionary<string, object> reParams)
         {
             var url = string.Format("{0}/{1}/refunds", BaseUrl, id);
-            var re = Requestor.DoRequest(url, "POST", reParams);
+            var re = Requestor.DoRequest(url, "POST", reParams, false);
             return Mapper<Refund>.MapFromJson(re);
         }
 

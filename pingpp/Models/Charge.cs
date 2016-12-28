@@ -93,7 +93,7 @@ namespace Pingpp.Models
 
         public static Charge Create(Dictionary<string, object> chParams)
         {
-            var ch = Requestor.DoRequest(BaseUrl, "POST", chParams);
+            var ch = Requestor.DoRequest(BaseUrl, "POST", chParams, false);
             return Mapper<Charge>.MapFromJson(ch);
         }
 
@@ -104,8 +104,12 @@ namespace Pingpp.Models
             return Mapper<Charge>.MapFromJson(ch);
         }
 
-        public static ChargeList List(Dictionary<string, object> listParams = null)
+        public static ChargeList List(string appId, Dictionary<string, object> listParams = null)
         {
+            listParams.Add("app", new Dictionary<string, object> {
+                {"id", appId}
+            });
+
             var url = Requestor.FormatUrl(BaseUrl, Requestor.CreateQuery(listParams));
             var ch = Requestor.DoRequest(url, "GET");
             return Mapper<ChargeList>.MapFromJson(ch);
