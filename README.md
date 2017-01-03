@@ -36,7 +36,7 @@ Charge ch = Charge.Retrieve(String id);
 
 #### 查询 charge 列表
 ```c#
-ChargeList chs = Charge.List(,String appId,Dictionary<String, Object> listParam);
+ChargeList chs = Charge.List(Dictionary<String, Object> listParam);
 ```
 
 ### 退款
