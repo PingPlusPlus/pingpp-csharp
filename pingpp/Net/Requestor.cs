@@ -17,7 +17,6 @@ namespace Pingpp.Net
     {
         internal static HttpWebRequest GetRequest(string path, string method, string timestamp, string sign)
         {
-            Console.WriteLine(ApiBase + path);
             var request = (HttpWebRequest)WebRequest.Create(ApiBase + path);
             request.Headers.Add("Authorization", string.Format("Bearer {0}", ApiKey));
             request.Headers.Add("Pingplusplus-Version", ApiVersion);
