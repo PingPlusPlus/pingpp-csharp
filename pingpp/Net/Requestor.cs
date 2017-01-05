@@ -15,11 +15,13 @@ namespace Pingpp.Net
 {
     internal class Requestor : Pingpp
     {
-        internal static HttpWebRequest GetRequest(string path, string method, string sign)
+        internal static HttpWebRequest GetRequest(string path, string method, string timestamp, string sign)
         {
+            Console.WriteLine(ApiBase + path);
             var request = (HttpWebRequest)WebRequest.Create(ApiBase + path);
             request.Headers.Add("Authorization", string.Format("Bearer {0}", ApiKey));
             request.Headers.Add("Pingplusplus-Version", ApiVersion);
+            request.Headers.Add("Pingplusplus-Request-Timestamp", timestamp);
             request.Headers.Add("Accept-Language", AcceptLanguage);
             if (!string.IsNullOrEmpty(sign))
             {
@@ -31,10 +33,11 @@ namespace Pingpp.Net
             request.ReadWriteTimeout = DefaultReadAndWriteTimeout;
             request.Method = method;
 
+
             return request;
         }
 
-        internal static string DoRequest(string path, string method, Dictionary<string, object> param = null)
+        internal static string DoRequest(string path, string method, Dictionary<string, object> param = null, bool isValidateUri = true)
         {
             if (string.IsNullOrEmpty(ApiKey))
             {
@@ -48,44 +51,41 @@ namespace Pingpp.Net
                 HttpWebRequest req;
                 HttpWebResponse res;
                 method = method.ToUpper();
-                switch (method)
+                string body = "", sign = "";
+                string timestamp = ((DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
+                if ((method.Equals("POST") || method.Equals("PUT")) && param != null)
                 {
-                    case "GET":
-                    case "DELETE":
-                        req = GetRequest(path, method, "");
-                        using (res = req.GetResponse() as HttpWebResponse)
-                        {
-                            return res == null ? null : ReadStream(res.GetResponseStream());
-                        }
-                    case "POST":
-                    case "PUT":
-                        if (param == null)
-                        {
-                            throw new PingppException("Request params is empty");
-                        }
-                        var body = JsonConvert.SerializeObject(param, Formatting.Indented);
-                        string sign;
-                        try
-                        {
-                            sign = RsaUtils.RsaSign(body, PrivateKey);
-                        }
-                        catch (System.Exception e)
-                        {
-                            throw new PingppException("Sign request error." + e.Message);
-                        }
-                        req = GetRequest(path, method, sign);
-                        using (var streamWriter = new StreamWriter(req.GetRequestStream()))
-                        {
-                            streamWriter.Write(body);
-                            streamWriter.Flush();
-                            streamWriter.Close();
-                        }
-                        using (res = req.GetResponse() as HttpWebResponse)
-                        {
-                            return res == null ? null : ReadStream(res.GetResponseStream());
-                        }
-                    default:
-                        return null;
+                    body = JsonConvert.SerializeObject(param, Formatting.Indented);
+                }
+
+                // Sign the request
+                try
+                {
+                    if (PrivateKey != null)
+                    {
+                        var uri = isValidateUri ? path : "";
+                        sign = RsaUtils.RsaSign(body + uri + timestamp, PrivateKey);
+                    }
+
+                }
+                catch (System.Exception e)
+                {
+                    throw new PingppException("Sign request error." + e.Message);
+                }
+
+                req = GetRequest(path, method, timestamp, sign);
+                if (method.Equals("POST") || method.Equals("PUT"))
+                {
+                    using (var streamWriter = new StreamWriter(req.GetRequestStream()))
+                    {
+                        streamWriter.Write(body);
+                        streamWriter.Flush();
+                        streamWriter.Close();
+                    }
+                }
+                using (res = req.GetResponse() as HttpWebResponse)
+                {
+                    return res == null ? null : ReadStream(res.GetResponseStream());
                 }
             }
             catch (WebException e)

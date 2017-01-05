@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Pingpp.Net;
-
+using Pingpp.Exception;
 
 namespace Pingpp.Models
 {
@@ -93,7 +93,7 @@ namespace Pingpp.Models
 
         public static Charge Create(Dictionary<string, object> chParams)
         {
-            var ch = Requestor.DoRequest(BaseUrl, "POST", chParams);
+            var ch = Requestor.DoRequest(BaseUrl, "POST", chParams, false);
             return Mapper<Charge>.MapFromJson(ch);
         }
 
@@ -106,6 +106,24 @@ namespace Pingpp.Models
 
         public static ChargeList List(Dictionary<string, object> listParams = null)
         {
+            object value;
+            if (listParams != null && listParams.TryGetValue("app", out value))
+            {
+                var app_id = value as Dictionary<string, string>;
+                string id;
+                if (app_id != null && app_id.TryGetValue("id", out id))
+                {
+                    if (String.IsNullOrEmpty(id))
+                    {
+                        throw new PingppException("Please pass app[id] as param");
+                    }
+                }
+            }
+            else
+            {
+                throw new PingppException("Please pass app[id] as param");
+            }
+
             var url = Requestor.FormatUrl(BaseUrl, Requestor.CreateQuery(listParams));
             var ch = Requestor.DoRequest(url, "GET");
             return Mapper<ChargeList>.MapFromJson(ch);

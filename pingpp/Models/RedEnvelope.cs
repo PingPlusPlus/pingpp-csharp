@@ -71,7 +71,7 @@ namespace Pingpp.Models
 
         public static RedEnvelope Create(Dictionary<string, object> redParams)
         {
-            var red = Requestor.DoRequest(BaseUrl, "POST", redParams);
+            var red = Requestor.DoRequest(BaseUrl, "POST", redParams, false);
             return Mapper<RedEnvelope>.MapFromJson(red);
         }
 

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Pingpp.Models
 {
-    public class CustomerList : Pingpp
+    public class BatchTransferList : Pingpp
     {
         [JsonProperty("object")]
         public string Object { get; set; }
@@ -13,6 +13,6 @@ namespace Pingpp.Models
         [JsonProperty("has_more")]
         public bool HasMore { get; set; }
         [JsonProperty("data")]
-        public IEnumerable<Customer> Data { get; set; }
+        public IEnumerable<BatchTransfer> Data { get; set; }
     }
 }

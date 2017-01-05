@@ -40,12 +40,16 @@ namespace Example
 
         private static void Examples(string appId)
         {
-            var ch = ChargeDemo.Example(appId);
-            RefundDemo.Example(ch.Id);
-            // RedEnvelopeDemo.Example(appId);
-            // TransferDemo.Example(appId);
+            //var ch = ChargeDemo.Example(appId);
+            //RefundDemo.Example(ch.Id);
+            //RedEnvelopeDemo.Example(appId);
+            //TransferDemo.Example(appId);
             // VerifyDemo.Example();
             // WebhooksDemo.Example();
+            //IdentificationDemo.Example(appId);
+            //CustomsDemo.Example(appId, "ch_CGuj94yXPW944CWbr1Sa5q1K");
+            // BatchRrefundDemo.Example(appId);
+            BatchTransferDemo.Example(appId);
         }
 
         private static void InAppExamples(string appId)

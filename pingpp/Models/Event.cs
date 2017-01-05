@@ -39,14 +39,7 @@ namespace Pingpp.Models
             var evt = Requestor.DoRequest(url, "Get");
             return Mapper<Event>.MapFromJson(evt);
         }
-
-        public static EventList List(Dictionary<string, object> listParams = null)
-        {
-            var query = Requestor.CreateQuery(listParams);
-            var url = Requestor.FormatUrl(BaseUrl, query);
-            var evtList = Requestor.DoRequest(url, "Get");
-            return Mapper<EventList>.MapFromJson(evtList);
-        }     
+     
     }
     
 
