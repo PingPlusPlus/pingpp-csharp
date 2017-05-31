@@ -6,15 +6,15 @@ using Pingpp.Models;
 
 namespace Example.Example
 {
-    internal class BatchRrefundDemo
+    internal class BatchRefundDemo
     {
         /// <summary>
         /// 本示例介绍批量Batch Refunds 批量退款创建，查询对象，查询对象列表
         /// </summary>
         /// <param name="appId"></param>
-        public static void Example(string appId) 
+        public static void Example(string appId)
         {
-            var reParams = new Dictionary<string, object> 
+            var reParams = new Dictionary<string, object>
             {
                 {"app", appId},
                 //批量退款批次号，3-24位，允许字母和英文
@@ -45,7 +45,7 @@ namespace Example.Example
             {
                 {"app", appId}, //批量退款对应的 app 对象 ID，如何获取App ID请查看： https://help.pingxx.com/article/198599/
                 {"page", 1},    //页码，取值范围：1~1000000000；默认值为"1"
-                {"per_page", 10} //每页数量，取值范围：1～100；默认值为"20"
+                {"per_page", 10} //每页数量，取值范围：1～100；默认值为"10"
             };
             Console.WriteLine(BatchRefund.List(listParams));
             Console.WriteLine();

@@ -48,7 +48,7 @@ namespace Example
             WebhooksDemo.Example();
             IdentificationDemo.Example(appId);
             CustomsDemo.Example(appId, "ch_CGuj94yXPW944CWbr1Sa5q1K");
-            BatchRrefundDemo.Example(appId);
+            BatchRefundDemo.Example(appId);
             BatchTransferDemo.Example(appId);
         }
 

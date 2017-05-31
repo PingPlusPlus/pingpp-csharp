@@ -43,7 +43,7 @@ namespace Example.Example
             var listParams = new Dictionary<string, object>
             {
                 {"page", 1},    //页码，取值范围：1~1000000000；默认值为"1"
-                {"per_page", 10}    //每页数量，取值范围：1～100；默认值为"20"
+                {"per_page", 10}    //每页数量，取值范围：1～100；默认值为"10"
             };
 
             Console.WriteLine("****查询批量转账明细 batch_transfers 对象****");
