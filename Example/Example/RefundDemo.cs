@@ -15,7 +15,8 @@ namespace Example.Example
             //退款请求参数，这里只列出必填参数，可选参数请参考 https://pingxx.com/document/api#api-r-new
             var reParams = new Dictionary<string, object>
             {
-                {"amount", 1},
+                // 退款的金额, 单位为对应币种的最小货币单位，例如：人民币为分（如退款金额为 1 元，此处请填 100）。必须小于等于可退款金额，默认为全额退款
+                {"amount", 100},
                 {"description", "Refund Reason"}
             };
 
