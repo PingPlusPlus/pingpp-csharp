@@ -84,7 +84,7 @@ namespace Pingpp.Models
         public Dictionary<string, object> Metadata { get; set; }
 
         [JsonProperty("credential")]
-        public object Credential { get; set; }
+        public Dictionary<string,object> Credential { get; set; }
 
         [JsonProperty("description")]
         public string Description { get; set; }

@@ -7,7 +7,7 @@ namespace Pingpp
 {
     public abstract class Pingpp
     {
-        public static volatile string ApiVersion = "2016-12-28";
+        public static volatile string ApiVersion = "2017-05-25";
         public static volatile string AcceptLanguage = "zh-CN";
         public static volatile string ApiBase = "https://api.pingxx.com";
         public static volatile string Version = "1.2.0";

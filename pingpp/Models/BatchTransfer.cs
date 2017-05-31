@@ -9,7 +9,7 @@ namespace Pingpp.Models
     /// <summary>
     /// batch_transfer
     /// </summary>
-    public class BatchTransfer : Pingpp
+    public class BatchTransfer : Pingpp 
     {
         [JsonProperty("id")]
         public string Id{ set; get; }
@@ -24,13 +24,13 @@ namespace Pingpp.Models
         [JsonProperty("channel")]
         public string Channel{ set; get; }
         [JsonProperty("currency")]
-        public string currency { set; get; }
+        public string Currency { set; get; }
         [JsonProperty("created")]
         public int? Created{ set; get; }
         [JsonProperty("description")]
         public string Description { set; get; }
         [JsonProperty("extra")]
-        public Dictionary<string, object> extra { set; get; }
+        public Dictionary<string, object> Extra { set; get; }
         [JsonProperty("failure_msg")]
         public string FailureMsg;
         [JsonProperty("fee")]
@@ -40,8 +40,7 @@ namespace Pingpp.Models
         [JsonProperty("metadata")]
         public Dictionary<string, object> MetaData { set; get; }
         [JsonProperty("recipients")]
-        public List<RecipientsList> RecipientsList { set; get; }
-
+        public List<Dictionary<string, object>> RecipientsList { set; get; }
         [JsonProperty("status")]
         public string Status { set; get; }
         [JsonProperty("time_succeeded")]
@@ -55,24 +54,29 @@ namespace Pingpp.Models
         /// </summary>
         /// <param name="btParams"></param>
         /// <returns></returns>
-        public static BatchTransfer Create(Dictionary<string, object> btParams)
+        public static BatchTransfer Create(Dictionary<string, object> btParams) 
         {
             var batchTranster = Requestor.DoRequest(BaseUrl, "POST", btParams, true);
             return Mapper<BatchTransfer>.MapFromJson(batchTranster);
         }
 
         /// <summary>
-        /// 查询批量付款明细 Object
+        /// 查询批量付款明细 Object 
         /// </summary>
         /// <param name="batchTransferNo"></param>
         /// <returns></returns>
-        public static BatchTransfer Retrieve(string batchTransferNo)
+        public static BatchTransfer Retrieve(string batchTransferNo) 
         {
             var url = string.Format("{0}/{1}", BaseUrl, batchTransferNo);
             var batchTranster = Requestor.DoRequest(url, "GET");
             return Mapper<BatchTransfer>.MapFromJson(batchTranster);
         }
 
+        /// <summary>
+        /// 查询批量付款列表
+        /// </summary>
+        /// <param name="btParams"></param>
+        /// <returns></returns>
         public static BatchTransferList List(Dictionary<string, object> btParams)
         {
             var url = Requestor.FormatUrl(BaseUrl, Requestor.CreateQuery(btParams));
@@ -85,27 +89,21 @@ namespace Pingpp.Models
             var cancelParams = new Dictionary<string, object> {
                 {"status", "canceled"}
             };
-            var ch = Requestor.DoRequest(String.Format("{0}/{1}", BaseUrl, batchTransferNo), "PUT", cancelParams, true);
-            return Mapper<BatchTransfer>.MapFromJson(ch);
+            var batchTransfer = Requestor.DoRequest(String.Format("{0}/{1}", BaseUrl, batchTransferNo), "PUT", cancelParams, true);
+            return Mapper<BatchTransfer>.MapFromJson(batchTransfer);
         }
-    }
 
-    [Serializable]
-    public class RecipientsList
-    {
-        [JsonProperty("account")]
-        public string Account { set; get; }
-        [JsonProperty("amount")]
-        public string Amount { set; get; }
-        [JsonProperty("name")]
-        public string Name { set; get; }
-        [JsonProperty("transfer")]
-        public string Transfer { set; get; }
-        [JsonProperty("open_bank", NullValueHandling = NullValueHandling.Ignore)]
-        public string BankName { set; get; }
-        [JsonProperty("open_bank_code", NullValueHandling = NullValueHandling.Ignore)]
-        public string BankCode { set; get; }
-        [JsonProperty("status")]
-        public string Status { set; get; }
+        /// <summary>
+        /// 更新批量付款对象（仅unionpay渠道支持）
+        /// </summary>
+        /// <param name="batchTransferNo"></param>
+        /// <param name="updateParams"></param>
+        /// <returns></returns>
+        public static BatchTransfer Update(string batchTransferNo, Dictionary<string, object> updateParams)
+        {
+            var url = string.Format("{0}/{1}", BaseUrl, batchTransferNo);
+            var batchTransfer = Requestor.DoRequest(url, "PUT", updateParams);
+            return Mapper<BatchTransfer>.MapFromJson(batchTransfer);
+        }
     }
 }
