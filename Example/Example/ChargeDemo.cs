@@ -105,7 +105,7 @@ namespace Example.Example
             Console.WriteLine();
 
             Console.WriteLine("发起撤销订单 charge 请求");
-            Console.WriteLine(ChargeReverse(appId, isvWapCharge.Id));
+            Console.WriteLine(ChargeReverse(isvWapCharge.Id));
             Console.WriteLine();
 
             Console.WriteLine("****查询指定 charge 对象****");
@@ -122,9 +122,9 @@ namespace Example.Example
             Console.WriteLine(Charge.List(listParams));
         }
 
-        public static Charge ChargeReverse(string appID,string chargeId)
+        public static Charge ChargeReverse(string chargeId)
         {
-            return Charge.Reverse(appID,chargeId);
+            return Charge.Reverse(chargeId);
         }
 
         /// <summary>

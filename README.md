@@ -39,6 +39,11 @@ Charge ch = Charge.Retrieve(String id);
 ChargeList chs = Charge.List(Dictionary<String, Object> listParam);
 ```
 
+#### 撤销 charge对象
+```c#
+Charge ch = Charge.Reverse(String chargeId);
+```
+
 ### 退款
 #### 发起 refund
 ```c#

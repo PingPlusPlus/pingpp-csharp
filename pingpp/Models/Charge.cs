@@ -89,6 +89,9 @@ namespace Pingpp.Models
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("reversed")]
+        public bool Reversed { get; set; }
+
         private const string BaseUrl = "/v1/charges";
 
         public static Charge Create(Dictionary<string, object> chParams)
@@ -135,11 +138,10 @@ namespace Pingpp.Models
         /// 本接口有两重作用，对于未成功付款的订单进行撤销，则关闭交易，使用户后期不能支付成功；
         /// 对于成功付款的订单进行撤销，系统将订单金额返还给用户，相当于对此交易做退款。
         /// </summary>
-        /// <param name="appId"></param>
         /// <param name="id"></param>
         /// <param name="chParams"></param>
         /// <returns></returns>
-        public static Charge Reverse(string appId, string id, Dictionary<string,object> chParams = null) 
+        public static Charge Reverse(string id, Dictionary<string,object> chParams = null) 
         {
             var url = string.Format("{0}/{1}/reverse", BaseUrl, id);
             var ch = Requestor.DoRequest(url, "POST", chParams, true);
