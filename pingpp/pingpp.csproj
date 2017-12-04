@@ -52,17 +52,54 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exception\PingppException.cs" />
+    <Compile Include="Models\BalanceBonus.cs" />
+    <Compile Include="Models\BalanceBonusList.cs" />
+    <Compile Include="Models\BalanceTransfer.cs" />
+    <Compile Include="Models\BalanceTransferList.cs" />
     <Compile Include="Models\BatchRefund.cs" />
     <Compile Include="Models\BatchRefundList.cs" />
     <Compile Include="Models\BatchTransfer.cs" />
+    <Compile Include="Models\BatchWithdrawalList.cs" />
     <Compile Include="Models\BatchTransferList.cs" />
+    <Compile Include="Models\BatchWithdrawal.cs" />
+    <Compile Include="Models\RechargeList.cs" />
+    <Compile Include="Models\RechargeRefund.cs" />
+    <Compile Include="Models\RoyaltyList.cs" />
+    <Compile Include="Models\Royalty.cs" />
+    <Compile Include="Models\RoyaltySettlementList.cs" />
+    <Compile Include="Models\RoyaltySettlement.cs" />
+    <Compile Include="Models\RoyaltyTemplate.cs" />
+    <Compile Include="Models\RoyaltyTemplateList.cs" />
+    <Compile Include="Models\RoyaltyTransactionList.cs" />
+    <Compile Include="Models\RoyaltyTransaction.cs" />
+    <Compile Include="Models\SettleAccountList.cs" />
+    <Compile Include="Models\SettleAccount.cs" />
+    <Compile Include="Models\SubAppChannel.cs" />
     <Compile Include="Models\Customs.cs" />
+    <Compile Include="Models\DeletedSubAppChannel.cs" />
     <Compile Include="Models\Identification.cs" />
+    <Compile Include="Models\Recharge.cs" />
+    <Compile Include="Models\SubApp.cs" />
+    <Compile Include="Models\SubAppList.cs" />
+    <Compile Include="Models\Withdrawal.cs" />
+    <Compile Include="Models\BalanceTransactionList.cs" />
+    <Compile Include="Models\BalanceTransaction.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\CardList.cs" />
+    <Compile Include="Models\Coupon.cs" />
+    <Compile Include="Models\CouponList.cs" />
+    <Compile Include="Models\CouponTemplateList.cs" />
+    <Compile Include="Models\CouponTemplate.cs" />
+    <Compile Include="Models\Deleted.cs" />
+    <Compile Include="Models\UserList.cs" />
+    <Compile Include="Models\OrderList.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Charge.cs" />
+    <Compile Include="Models\OrderRefund.cs" />
+    <Compile Include="Models\OrderRefundList.cs" />
     <Compile Include="Models\RefundList.cs" />
     <Compile Include="Models\RedEnvelopeList.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Models\SmsCode.cs" />
     <Compile Include="Models\Token.cs" />
     <Compile Include="Models\TransferList.cs" />
@@ -73,6 +110,7 @@
     <Compile Include="Models\Refund.cs" />
     <Compile Include="Models\Transfer.cs" />
     <Compile Include="Models\Webhooks.cs" />
+    <Compile Include="Models\WithdrawalList.cs" />
     <Compile Include="Net\Mapper.cs" />
     <Compile Include="Net\Requestor.cs" />
     <Compile Include="Pingpp.cs" />
@@ -86,7 +124,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

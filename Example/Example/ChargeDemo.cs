@@ -23,6 +23,10 @@ namespace Example.Example
             Console.WriteLine(alipay_pc_directCharge(appId));
             Console.WriteLine();
 
+            Console.WriteLine("****发起交易请求创建 charge 对象- alipay_qr 渠道****");
+            Console.WriteLine(alipay_qrCharge(appId));
+            Console.WriteLine();
+
             Console.WriteLine("****发起交易请求创建 charge 对象-  applepay_upacp 渠道****");
             Console.WriteLine(applepay_upacpCharge(appId));
             Console.WriteLine();
@@ -479,6 +483,58 @@ namespace Example.Example
                 // 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
                 {"client_ip", "127.0.0.1"},
                 {"app", new Dictionary<string, string> {{"id", appId}}},
+                // 可选：订单失效时间，用 Unix 时间戳表示。时间范围在订单创建后的 1 分钟到 15 天，默认为 1 天,创建时间以 Ping++ 服务器时间为准。 微信对该参数的有效值限制为 2 小时内；银联对该参数的有效值限制为 1 小时内。
+                {"time_expire", timeExpire()},
+                // 可选：订单附加说明，最多 255 个 Unicode 字符。
+                {"description", "Your chare description"}
+            };
+
+            return Charge.Create(chParams);
+        }
+
+        /// <summary>
+        /// chargec创建alipay_qr渠道
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
+        public static Charge alipay_qrCharge(String appId) 
+        {
+            //交易请求参数，这里只列出必填参数，可选参数请参考 https://www.pingxx.com/api#创建-charge-对象
+            var chParams = new Dictionary<string, object>
+            {
+                // 推荐使用 8-20 位，要求数字或字母，不允许其他字符
+                {"order_no", new Random().Next(1, 999999999).ToString()},
+                // 订单总金额, 人民币单位：分（如订单总金额为 1 元，此处请填 100）
+                {"amount", 1},
+                // 支付使用的第三方支付渠道取值，请参考： https://www.pingxx.com/api#支付渠道属性值
+                {"channel", "alipay_qr"},
+                // 3 位 ISO 货币代码，人民币为  cny 。
+                {"currency", "cny"},
+                // 商品标题，该参数最长为 32 个 Unicode 字符，银联全渠道（ upacp / upacp_wap ）限制在 32 个字节。
+                {"subject", "Your Subject"},
+                // 商品描述信息，该参数最长为 128 个 Unicode 字符， yeepay_wap 对于该参数长度限制为 100 个 Unicode 字符。
+                {"body", "Your Body"},
+                // 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
+                {"client_ip", "127.0.0.1"},
+                {"app", new Dictionary<string, string> {{"id", appId}}},
+                // 特定渠道发起交易时需要的额外参数，以及部分渠道支付成功返回的额外参数，详细参考 https://www.pingxx.com/api#支付渠道-extra-参数说明
+                {"extra", new Dictionary<string,object>{
+                    //可选 仅适用于支付宝 2.0 接口，使用花呗分期要进行的分期数，必须根据支付宝签约的分期数填写，可选值3、6、12 （支付宝 2.0 参数传入有效，hb_fq_num 和 hb_fq_seller_percent 必须同时传入有效）。
+                    //{"hb_fq_num", "0"},
+                    // 可选，仅适用于支付宝 2.0 接口，使用花呗分期需要卖家承担的手续费比例的百分值，传入100代表100%，可选值0、100（支付宝 2.0 参数传入有效，hb_fq_num 和 hb_fq_seller_percent必须同时传入有效）。
+                    //{"hb_fq_seller_percent", 1},
+                    //可选 仅适用于支付宝 2.0 接口，系统商编号，该参数作为系统商返佣数据提取的依据，请填写系统商签约协议的 PID。
+                    //{"sys_service_provider_id", ""},
+                    //适用于支付宝 2.0 接口，支付完成将额外返回付款用户的支付宝账号。
+                    //{"buyer_account","example@example.com"},
+                    //适用于支付宝 2.0 接口，交易支付使用的资金渠道，详见下方的 fund_bill_list 渠道透传返回。
+                    //{"fund_bill_list", new Dictionary<string,object>{
+                    //    {"fund_channel","ALIPAYACCOUNT"}, //仅适用于支付宝 2.0 接口，交易使用的资金渠道，详见 alipay 支付渠道列表。
+                    //    {"amount", 10}, //仅适用于支付宝 2.0 接口，该支付工具类型所使用的金额。
+                    //    {"real_amount", 10}
+                    //}},
+                    //{"buyer_user_id", "2088000000"}
+                }},
                 // 可选：订单失效时间，用 Unix 时间戳表示。时间范围在订单创建后的 1 分钟到 15 天，默认为 1 天,创建时间以 Ping++ 服务器时间为准。 微信对该参数的有效值限制为 2 小时内；银联对该参数的有效值限制为 1 小时内。
                 {"time_expire", timeExpire()},
                 // 可选：订单附加说明，最多 255 个 Unicode 字符。

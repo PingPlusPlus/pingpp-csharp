@@ -8,7 +8,7 @@ namespace Example.Example
     public class RefundDemo
     {
         /// <summary>
-        /// 本示例只介绍如何发起退款，以及如何查询指定 refund 对象和 refund 列表，
+        /// 本示例介绍如何发起退款，以及如何查询指定 Refund 对象和 Refund 列表
         /// </summary>
         public static Refund Example(string chId)
         {

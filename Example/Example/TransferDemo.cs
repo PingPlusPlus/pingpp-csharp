@@ -35,6 +35,10 @@ namespace Example.Example
             Console.WriteLine(tr);
             Console.WriteLine();
 
+            Console.WriteLine("****创建 Transfer 对象- balance 渠道****");
+            Console.WriteLine(balanceTransfer(appId));
+            Console.WriteLine();
+
             Console.WriteLine("****查询指定 Transfer 对象****");
             Console.WriteLine(Transfer.Retrieve(tr.Id));
             Console.WriteLine();
@@ -59,7 +63,7 @@ namespace Example.Example
         /// </summary>
         /// <param name="appId"></param>
         /// <returns></returns>
-        public static Transfer alipayTransfer(String appId) 
+        public static Transfer alipayTransfer(String appId)
         {
             var trParams = new Dictionary<string, object>
             {
@@ -81,7 +85,7 @@ namespace Example.Example
                     {
                         // 必须，收款人姓名，1~50位。
                         {"recipient_name", "张三"},
-                        // 可选，收款方账户类型。可取值：1、 ALIPAY_USERID ：支付宝账号对应的支付宝唯一用户号。以2088开头的16位纯数字组成。 
+                        // 可选，收款方账户类型。可取值：1、 ALIPAY_USERID ：支付宝账号对应的支付宝唯一用户号。以2088开头的16位纯数字组成。
                         //                           2、 ALIPAY_LOGONID （默认值）：支付宝登录号，支持邮箱和手机号格式。
                         {"recipient_account_type", "ALIPAY_LOGONID"}
                     }
@@ -96,7 +100,7 @@ namespace Example.Example
         /// </summary>
         /// <param name="appId"></param>
         /// <returns></returns>
-        public static Transfer allinpayTransfer(String appId) 
+        public static Transfer allinpayTransfer(String appId)
         {
             var trParams = new Dictionary<string, object>
             {
@@ -135,7 +139,7 @@ namespace Example.Example
         /// </summary>
         /// <param name="appId"></param>
         /// <returns></returns>
-        public static Transfer jdpayTransfer(String appId) 
+        public static Transfer jdpayTransfer(String appId)
         {
             var trParams = new Dictionary<string, object>
             {
@@ -171,7 +175,7 @@ namespace Example.Example
         /// </summary>
         /// <param name="appId"></param>
         /// <returns></returns>
-        public static Transfer unionpayTransfer(String appId) 
+        public static Transfer unionpayTransfer(String appId)
         {
             var trParams = new Dictionary<string, object>
             {
@@ -218,7 +222,7 @@ namespace Example.Example
         /// </summary>
         /// <param name="appId"></param>
         /// <returns></returns>
-        public static Transfer wx_pubTransfer(String appId) 
+        public static Transfer wx_pubTransfer(String appId)
         {
             var trParams = new Dictionary<string, object>
             {
@@ -244,6 +248,33 @@ namespace Example.Example
                         //{"force_check", true}
                     }
                 }
+            };
+
+            return Transfer.Create(trParams);
+        }
+
+        /// <summary>
+        /// 创建 Transfer 对象-balance 渠道
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
+        public static Transfer balanceTransfer(String appId)
+        {
+            var trParams = new Dictionary<string, object>
+            {
+                // 付款使用的商户内部订单号。 wx_pub 规定为 1 ~ 50 位不能重复的数字字母组合;
+                {"order_no", new Random().Next(1, 999999999).ToString()},
+                 // 订单总金额, 人民币单位：分（如订单总金额为 1 元，此处请填 100,企业付款最小发送金额为1 元）
+                {"amount", 100},
+                // 目前支持 支付宝：alipay，银联：unionpay，微信公众号：wx_pub，通联：allinpay，京东：jdpay
+                {"channel", "balance"},
+                {"currency", "cny"},
+                // 付款类型，支持 b2c 、b2b
+                {"type", "b2c"},
+                // 备注信息。渠道为 wx_pub 时，最多 99 个英文和数字的组合或最多 33 个中文字符，不可以包含特殊字符；
+                {"description", "Description"},
+                // 接收者 id， 微信企业付款时为用户在 wx_pub 下的 open_id ;
+                {"app", new Dictionary<string, string> {{"id", appId}}}
             };
 
             return Transfer.Create(trParams);

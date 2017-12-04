@@ -41,11 +41,12 @@ namespace Example.InAppExample
             Console.WriteLine();
 
             Console.WriteLine("****查询 charge 列表****");
-            Console.WriteLine("****查询 charge 列表****");
             Dictionary<string, object> listParams = new Dictionary<string, object>{
                 {"app", new Dictionary<string, string> {{"id", appId}}},
-                {"limit", 3}
+                {"limit", 3},
+                {"paid", true}
             };
+            Console.WriteLine();
         }
     }
 }

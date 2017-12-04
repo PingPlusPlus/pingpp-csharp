@@ -49,11 +49,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entry.cs" />
-    <Compile Include="Example\BatchRefundDemo.cs" />
+    <Compile Include="Example\BalanceBonusDemo.cs" />
+    <Compile Include="Example\BalanceTransactionDemo.cs" />
+    <Compile Include="Example\BalanceTransferDemo.cs" />
+    <Compile Include="Example\BatchWithdrawalDemo.cs" />
+    <Compile Include="Example\ChannelDemo.cs" />
+    <Compile Include="Example\RoyaltyDemo.cs" />
+    <Compile Include="Example\RoyaltySettlementDemo.cs" />
+    <Compile Include="Example\RoyaltyTemplateDemo.cs" />
+    <Compile Include="Example\RoyaltyTransactionDemo.cs" />
+    <Compile Include="Example\SettleAccountDemo.cs" />
+    <Compile Include="Example\SubAppDemo.cs" />
+    <Compile Include="Example\BatchRrefundDemo.cs" />
     <Compile Include="Example\BatchTransferDemo.cs" />
+    <Compile Include="Example\CouponDemo.cs" />
+    <Compile Include="Example\BalanceDemo.cs" />
     <Compile Include="Example\CustomsDemo.cs" />
     <Compile Include="Example\IdentificationDemo.cs" />
-    <Compile Include="InAppExample\CardDemo.cs" />
+    <Compile Include="Example\RechargeDemo.cs" />
+    <Compile Include="Example\UserDemo.cs" />
+    <Compile Include="Example\OrderDemo.cs" />
+    <Compile Include="Example\OrderRefundDemo.cs" />
+    <Compile Include="Example\WithdrawalDemo.cs" />
     <Compile Include="Example\ChargeDemo.cs" />
     <Compile Include="Example\EventDemo.cs" />
     <Compile Include="InAppExample\InAppChargeDemo.cs" />

@@ -46,6 +46,13 @@ namespace Pingpp.Models
         [JsonProperty("charge")]
         public string Charge { get; set; }
 
+        [JsonProperty("charge_order_no")]
+        public string ChargeOrderNo { get; set; }
+        [JsonProperty("transaction_no")]
+        public string TransactionNo { get; set; }
+        [JsonProperty("extra")]
+        public Dictionary<string, object> Extra { get; set; }
+
         private const string BaseUrl = "/v1/charges";
 
         public static Refund Create(string id, Dictionary<string, object> reParams)

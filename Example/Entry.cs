@@ -9,8 +9,9 @@ namespace Example
     internal class Entry
     {
         /// <summary>
-        /// 本示例只介绍如何请求支付凭据（charge 对象），以及如何查询指定 charge 对象和 charge 列表，
-        /// 至于如何将 charge 对象传递给客户端需要接入者自行处理
+        /// 作为示例的入口，你可以使用示例的配置参数或者更改为你在 Ping++ 注册后从管理平台中获得的配置参数
+        /// 示例分为 3 类：收款/付款类、用户账户类、应用内支付类，你可以通过取消/增加注释的方式根据你的业务场景选择需要调试的接口
+        /// 
         /// </summary>
         private static void Main(string[] args)
         {
@@ -25,10 +26,14 @@ namespace Example
                 //设置 App Id, 可以换成自己的应用 Id
                 var appId = "app_1Gqj58ynP0mHeX1q";
 
+                // 收款/付款类相关示例
                 Examples(appId);
 
-                // 应用内支付相关示例
-                // InAppExamples(appId);
+                // 用户账户类相关示例
+                AccountExamples(appId);
+
+                // 应用内支付类相关示例
+                //InAppExamples(appId);
             }
             catch (PingppException e)
             {
@@ -40,16 +45,62 @@ namespace Example
 
         private static void Examples(string appId)
         {
-            ChargeDemo.Example(appId);
-            RefundDemo.Example("ch_CGuj94yXPW944CWbr1Sa5q1K");
-            RedEnvelopeDemo.Example(appId);
+            //var ch = ChargeDemo.Example(appId);
+            //RedEnvelopeDemo.Example(appId);
+            //TransferDemo.Example(appId);
+            // VerifyDemo.Example();
+            // WebhooksDemo.Example();
+            //IdentificationDemo.Example(appId);
+            //CustomsDemo.Example(appId, "ch_avbPyT4aDCe1r9W1eHfv1SuP");
+            //批量退款示例
+            //BatchRefundDemo.Example(appId);
+        }
+
+        private static void AccountExamples(string appId)
+        {
+            //Order 示例
+            OrderDemo.Example(appId);
+            //Order退款示例
+            OrderRefundDemo.Example("2011708140000074741");
+            //User 对象相关示例
+            UserDemo.Example(appId);
+            //用户余额明细示例
+            BalanceTransactionDemo.Example(appId);
+            //转账 示例
             TransferDemo.Example(appId);
-            VerifyDemo.Example();
-            WebhooksDemo.Example();
-            IdentificationDemo.Example(appId);
-            CustomsDemo.Example(appId, "ch_CGuj94yXPW944CWbr1Sa5q1K");
-            BatchRefundDemo.Example(appId);
+            //余额提现 示例
+            WithdrawalDemo.Example(appId);
+            //优惠券 示例
+            CouponDemo.Example(appId);
+            //批量转账 示例
             BatchTransferDemo.Example(appId);
+            //批量体现示例
+            BatchWithdrawalDemo.Example(appId);
+            //子商户示例
+            SubAppDemo.Example(appId);
+            //子商户渠道设置示例
+            ChannelDemo.Example(appId, "app_jXH8WHCCSGC0GCGu");
+            //结算账号示例
+            SettleAccountDemo.Example(appId);
+            //分润示例
+            RoyaltyDemo.Example();
+            //分润结算明细示例
+            RoyaltyTransactionDemo.Example();
+            //分润结算示例
+            RoyaltySettlementDemo.Example();
+            OrderDemo.Example(appId);
+             var user = UserDemo.Example(appId);
+             BalanceDemo.Example(appId);
+             CouponDemo.Example(appId);
+            //余额充值接口示例
+            RechargeDemo.Example(appId);
+
+            //余额赠送示例
+            BalanceBonusDemo.Example(appId);
+            //余额转账示例
+            BalanceTransferDemo.Example(appId);
+            //分润模板示例
+            RoyaltyTemplateDemo.Example(appId);
         }
 
         private static void InAppExamples(string appId)

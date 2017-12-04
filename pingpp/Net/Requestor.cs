@@ -91,6 +91,11 @@ namespace Pingpp.Net
             {
                 if (e.Response == null) throw new WebException(e.Message);
                 var statusCode = ((HttpWebResponse)e.Response).StatusCode;
+                if ((int)statusCode == 502 && BadGateWayMatch && MaxRetry < MaxNetworkRetries)
+                {
+                    MaxRetry ++;
+                    DoRequest(path, method, param, isValidateUri);
+                }
                 var errors = Mapper<Error>.MapFromJson(ReadStream(e.Response.GetResponseStream()), "error");
 
                 throw new PingppException(errors, statusCode, errors.ErrorType, errors.Message);

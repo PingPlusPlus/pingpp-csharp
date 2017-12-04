@@ -7,15 +7,32 @@ namespace Pingpp
 {
     public abstract class Pingpp
     {
-        public static volatile string ApiVersion = "2017-06-20";
+        public static volatile string ApiVersion = "2017-10-25";
         public static volatile string AcceptLanguage = "zh-CN";
         public static volatile string ApiBase = "https://api.pingxx.com";
-        public static volatile string Version = "1.2.1";
+        public static volatile string Version = "1.4.1";
+        public static volatile bool BadGateWayMatch = true;
+        public static volatile int MaxNetworkRetries = 1;
+        protected static volatile int MaxRetry = 0;
         public static int DefaultTimeout = 80000;
         public static int DefaultReadAndWriteTimeout = 20000;
         public static volatile string ApiKey;
         public static volatile byte[] PrivateKey;
 
+        public static void SetMaxNetworkRetries(int maxNetworkRetries) 
+        {
+            MaxNetworkRetries = maxNetworkRetries;
+        }
+
+        public static void SetBadGateWayMatch(bool badGateWayMatch)
+        {
+            BadGateWayMatch = badGateWayMatch;
+        }
+
+        public static void SetApiBase(string newApiBase) 
+        {
+            ApiBase = newApiBase;
+        }
         internal static string GetApiKey()
         {
             return ApiKey;
