@@ -39,20 +39,8 @@ namespace Example.Example
             Console.WriteLine(cmb_walletCharge(appId));
             Console.WriteLine();
 
-            Console.WriteLine("****发起交易请求创建 charge 对象- fqlpay_wap 渠道****");
-            Console.WriteLine(fqlpay_wapCharge(appId));
-            Console.WriteLine();
-
             Console.WriteLine("****发起交易请求创建 charge 对象- jdpay_wap 渠道****");
             Console.WriteLine(jdpay_wapCharge(appId));
-            Console.WriteLine();
-
-            Console.WriteLine("****发起交易请求创建 charge 对象- mmdpay_wap 渠道****");
-            Console.WriteLine(mmdpay_wapCharge(appId));
-            Console.WriteLine();
-
-            Console.WriteLine("****发起交易请求创建 charge 对象-qgbc_wap 渠道****");
-            Console.WriteLine(qgbc_wapCharge(appId));
             Console.WriteLine();
 
             Console.WriteLine("****发起交易请求创建 charge 对象- qpay 渠道****");
@@ -106,6 +94,26 @@ namespace Example.Example
             Console.WriteLine("****发起交易请求创建 charge 对象-isv_wap 渠道****");
             var isvWapCharge = isv_wapCharge(appId);
             Console.WriteLine(isvWapCharge);
+            Console.WriteLine();
+
+            Console.WriteLine("****发起交易请求创建 charge 对象-cb_alipay 渠道****");
+            Console.WriteLine(cbAlipayCharge(appId));
+            Console.WriteLine();
+
+            Console.WriteLine("****发起交易请求创建 charge 对象-cb_wx 渠道****");
+            Console.WriteLine(cbWxCharge(appId));
+            Console.WriteLine();
+
+            Console.WriteLine("****发起交易请求创建 charge 对象-cb_wx_pub 渠道****");
+            Console.WriteLine(cbWxPubCharge(appId));
+            Console.WriteLine();
+
+            Console.WriteLine("****发起交易请求创建 charge 对象-cb_wx_pub_qr 渠道****");
+            Console.WriteLine(cbWxPubQrCharge(appId));
+            Console.WriteLine();
+
+            Console.WriteLine("****发起交易请求创建 charge 对象-cb_wx_pub_scan 渠道****");
+            Console.WriteLine(cbWxPubScanCharge(appId));
             Console.WriteLine();
 
             Console.WriteLine("发起撤销订单 charge 请求");
@@ -774,53 +782,6 @@ namespace Example.Example
         }
 
         /// <summary>
-        /// charge创建-qgbc_wap 渠道
-        /// </summary>
-        /// <param name="appId"></param>
-        /// <returns></returns>
-        public static Charge qgbc_wapCharge(String appId)
-        {
-            //交易请求参数，这里只列出必填参数，可选参数请参考 https://www.pingxx.com/api#创建-charge-对象
-            var chParams = new Dictionary<string, object>
-            {
-                // 推荐使用 8-20 位，要求数字或字母，不允许其他字符
-                {"order_no", new Random().Next(1, 999999999).ToString()},
-                // 订单总金额, 人民币单位：分（如订单总金额为 100 元，此处请填 10000）
-                {"amount", 10000},
-                // 支付使用的第三方支付渠道取值，请参考： https://www.pingxx.com/api#支付渠道属性值
-                {"channel", "qgbc_wap"},
-                // 3 位 ISO 货币代码，人民币为  cny 。
-                {"currency", "cny"},
-                // 商品标题，该参数最长为 32 个 Unicode 字符，银联全渠道（ upacp / upacp_wap ）限制在 32 个字节。
-                {"subject", "Your Subject"},
-                // 商品描述信息，该参数最长为 128 个 Unicode 字符， yeepay_wap 对于该参数长度限制为 100 个 Unicode 字符。
-                {"body", "Your Body"},
-                // 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
-                {"client_ip", "127.0.0.1"},
-                {"app", new Dictionary<string, string> {{"id", appId}}},
-                // 特定渠道发起交易时需要的额外参数，以及部分渠道支付成功返回的额外参数，详细参考 https://www.pingxx.com/api#支付渠道-extra-参数说明
-                {"extra", new Dictionary<string,object>{
-                    // 必须，手机号码。
-                    {"phone", "13088888888"},
-                    // 可选，交易完成跳转的地址。
-                    {"return_url", "http://example.com/success"},
-                    // 可选，分期参数，0 代表不分期，1 代表分 3 期，2 代表分 6 期，3 代表分 9 期，4 代表分 12 期。
-                    {"term",0}, 
-                    // 可选，账户激活中状态跳转链接。
-                    {"activate_url", "http://example.com/activate_url"},
-                    // 可选，是否显示量化派页面顶部 header，即是否显示 H5 顶部标题栏，默认为  true 时显示。
-                    {"has_header", true}
-                }},
-                // 可选：订单失效时间，用 Unix 时间戳表示。时间范围在订单创建后的 1 分钟到 15 天，默认为 1 天,创建时间以 Ping++ 服务器时间为准。 微信对该参数的有效值限制为 2 小时内；银联对该参数的有效值限制为 1 小时内。
-                {"time_expire", timeExpire()},
-                // 可选：订单附加说明，最多 255 个 Unicode 字符。
-                {"description", "Your chare description"}
-            };
-
-            return Charge.Create(chParams);
-        }
-
-        /// <summary>
         /// charge创建-qpay 渠道
         /// </summary>
         /// <param name="appId"></param>
@@ -1230,6 +1191,270 @@ namespace Example.Example
                 {"time_expire", timeExpire()},
                 // 可选：订单附加说明，最多 255 个 Unicode 字符。
                 {"description", "Your chare description"},
+            };
+
+            return Charge.Create(chParams);
+        }
+
+        /// <summary>
+        /// charge创建- cb_alipay 渠道
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
+        public static Charge cbAlipayCharge(string appId)
+        {
+            //交易请求参数，这里只列出必填参数，可选参数请参考 https://www.pingxx.com/api#创建-charge-对象
+            var chParams = new Dictionary<string, object>
+            {
+                // 推荐使用 8-20 位，要求数字或字母，不允许其他字符
+                {"order_no", new Random().Next(1, 999999999).ToString()},
+                // 订单总金额, 人民币单位：分（如订单总金额为 1 元，此处请填 100）
+                {"amount", 2},
+                // 支付使用的第三方支付渠道取值，请参考： https://www.pingxx.com/api#支付渠道属性值
+                {"channel", "cb_alipay"},
+                // 3 位 ISO 货币代码，人民币为  cny 。
+                {"currency", "cny"},
+                // 商品标题，该参数最长为 32 个 Unicode 字符，银联全渠道（ upacp / upacp_wap ）限制在 32 个字节。
+                {"subject", "Your Subject"},
+                // 商品描述信息，该参数最长为 128 个 Unicode 字符， yeepay_wap 对于该参数长度限制为 100 个 Unicode 字符。
+                {"body", "Your Body"},
+                // 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
+                {"client_ip", "127.0.0.1"},
+                {"app", new Dictionary<string, string> {{"id", appId}}},
+                {"extra", new Dictionary<string,object>{
+                    // 可选参数: split_fund_info :分账列表 account: 接受分账资金的支付宝账户ID。amount: 分账的金额。desc 分账描述信息。
+                    {"split_fund_info",new List<Dictionary<string,object>>{
+                        new Dictionary<string,object>{
+                            {"account", "2088866088886666"},
+                            {"amount", 1},
+                            {"desc","split_desc desc"}
+                        },
+                        new Dictionary<string,object>{
+                            {"account", "2088866088886688"},
+                            {"amount", 1},
+                            {"desc","split_desc desc"}
+                        }
+                    }}
+                }},
+                // 可选：订单失效时间，用 Unix 时间戳表示。时间范围在订单创建后的 1 分钟到 15 天，默认为 1 天,创建时间以 Ping++ 服务器时间为准。 微信对该参数的有效值限制为 2 小时内；银联对该参数的有效值限制为 1 小时内。
+                {"time_expire", timeExpire()},
+                // 可选：订单附加说明，最多 255 个 Unicode 字符。
+                {"description", "Your chare description"},
+            };
+            return Charge.Create(chParams);
+        }
+
+        /// <summary>
+        /// charge创建- cb_wx 渠道
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
+        public static Charge cbWxCharge(string appId)
+        {
+            //交易请求参数，这里只列出必填参数，可选参数请参考 https://www.pingxx.com/api#创建-charge-对象
+            var chParams = new Dictionary<string, object>
+            {
+                // 推荐使用 8-20 位，要求数字或字母，不允许其他字符
+                {"order_no", new Random().Next(1, 999999999).ToString()},
+                // 订单总金额, 人民币单位：分（如订单总金额为 1 元，此处请填 100）
+                {"amount", 1},
+                // 支付使用的第三方支付渠道取值，请参考： https://www.pingxx.com/api#支付渠道属性值
+                {"channel", "cb_wx"},
+                // 3 位 ISO 货币代码，人民币为  cny 。
+                {"currency", "cny"},
+                // 商品标题，该参数最长为 32 个 Unicode 字符，银联全渠道（ upacp / upacp_wap ）限制在 32 个字节。
+                {"subject", "Your Subject"},
+                // 商品描述信息，该参数最长为 128 个 Unicode 字符， yeepay_wap 对于该参数长度限制为 100 个 Unicode 字符。
+                {"body", "Your Body"},
+                // 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
+                {"client_ip", "127.0.0.1"},
+                {"app", new Dictionary<string, string> {{"id", appId}}},
+                // 特定渠道发起交易时需要的额外参数，以及部分渠道支付成功返回的额外参数，详细参考 https://www.pingxx.com/api#支付渠道-extra-参数说明
+                {"extra", new Dictionary<string,object>{
+                    // 可选，只能填写此值 "no_credit"
+                    {"limit_pay", "no_credit"},
+                    //必填参数 。商品列表，上送格式参照下面示例。
+                    //    字段解释：goods_name:商品名称，goods_num:数量 1-5500
+                    {"goods_list",new List<Dictionary<string,object>>{
+                        new Dictionary<string,object>{
+                            {"goods_name","iPhone6s 16G"},
+                            {"goods_num", "1"}
+                        },
+                        new Dictionary<string,object>{
+                            {"goods_name","iPhone6s 32G"},
+                            {"goods_num", "1"}
+                            
+                        }
+                    }}
+                }},
+                // 可选：订单失效时间，用 Unix 时间戳表示。时间范围在订单创建后的 1 分钟到 15 天，默认为 1 天,创建时间以 Ping++ 服务器时间为准。 微信对该参数的有效值限制为 2 小时内；银联对该参数的有效值限制为 1 小时内。
+                {"time_expire", timeExpire()},
+                // 可选：订单附加说明，最多 255 个 Unicode 字符。
+                {"description", "Your chare description"}
+            };
+
+            return Charge.Create(chParams);
+        }
+
+        /// <summary>
+        /// charge创建- cb_wx_pub 渠道
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
+        public static Charge cbWxPubCharge(string appId)
+        {
+            //交易请求参数，这里只列出必填参数，可选参数请参考 https://www.pingxx.com/api#创建-charge-对象
+            var chParams = new Dictionary<string, object>
+            {
+                // 推荐使用 8-20 位，要求数字或字母，不允许其他字符
+                {"order_no", new Random().Next(1, 999999999).ToString()},
+                // 订单总金额, 人民币单位：分（如订单总金额为 1 元，此处请填 100）
+                {"amount", 1},
+                // 支付使用的第三方支付渠道取值，请参考： https://www.pingxx.com/api#支付渠道属性值
+                {"channel", "cb_wx_pub"},
+                // 3 位 ISO 货币代码，人民币为  cny 。
+                {"currency", "cny"},
+                // 商品标题，该参数最长为 32 个 Unicode 字符，银联全渠道（ upacp / upacp_wap ）限制在 32 个字节。
+                {"subject", "Your Subject"},
+                // 商品描述信息，该参数最长为 128 个 Unicode 字符， yeepay_wap 对于该参数长度限制为 100 个 Unicode 字符。
+                {"body", "Your Body"},
+                // 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
+                {"client_ip", "127.0.0.1"},
+                {"app", new Dictionary<string, string> {{"id", appId}}},
+                // 特定渠道发起交易时需要的额外参数，以及部分渠道支付成功返回的额外参数，详细参考 https://www.pingxx.com/api#支付渠道-extra-参数说明
+                {"extra", new Dictionary<string,object>{
+                    // 必须, 用户在商户 appid 下的唯一标识
+                    {"open_id", "openidxxxxxxxxxxxx"},
+                    // 可选，只能填写此值 "no_credit"
+                    {"limit_pay", "no_credit"},
+                    //必填参数 。商品列表，上送格式参照下面示例。
+                    //    字段解释：goods_name:商品名称，goods_num:数量 1-5500
+                    {"goods_list",new List<Dictionary<string,object>>{
+                        new Dictionary<string,object>{
+                            {"goods_name","iPhone6s 16G"},
+                            {"goods_num","1"}
+                        },
+                        new Dictionary<string,object>{
+                            {"goods_name","iPhone6s 32G"},
+                            {"goods_num","1"}
+                            
+                        }
+                    }}
+                }},
+                // 可选：订单失效时间，用 Unix 时间戳表示。时间范围在订单创建后的 1 分钟到 15 天，默认为 1 天,创建时间以 Ping++ 服务器时间为准。 微信对该参数的有效值限制为 2 小时内；银联对该参数的有效值限制为 1 小时内。
+                {"time_expire", timeExpire()},
+                // 可选：订单附加说明，最多 255 个 Unicode 字符。
+                {"description", "Your chare description"}
+            };
+
+            return Charge.Create(chParams);
+        }
+
+        /// <summary>
+        /// charge创建- cb_wx_pub_qr 渠道
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
+        public static Charge cbWxPubQrCharge(string appId)
+        {
+            //交易请求参数，这里只列出必填参数，可选参数请参考 https://www.pingxx.com/api#创建-charge-对象
+            var chParams = new Dictionary<string, object>
+            {
+                // 推荐使用 8-20 位，要求数字或字母，不允许其他字符
+                {"order_no", new Random().Next(1, 999999999).ToString()},
+                // 订单总金额, 人民币单位：分（如订单总金额为 1 元，此处请填 100）
+                {"amount", 1},
+                // 支付使用的第三方支付渠道取值，请参考： https://www.pingxx.com/api#支付渠道属性值
+                {"channel", "cb_wx_pub_qr"},
+                // 3 位 ISO 货币代码，人民币为  cny 。
+                {"currency", "cny"},
+                // 商品标题，该参数最长为 32 个 Unicode 字符，银联全渠道（ upacp / upacp_wap ）限制在 32 个字节。
+                {"subject", "Your Subject"},
+                // 商品描述信息，该参数最长为 128 个 Unicode 字符， yeepay_wap 对于该参数长度限制为 100 个 Unicode 字符。
+                {"body", "Your Body"},
+                // 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
+                {"client_ip", "127.0.0.1"},
+                {"app", new Dictionary<string, string> {{"id", appId}}},
+                // 特定渠道发起交易时需要的额外参数，以及部分渠道支付成功返回的额外参数，详细参考 https://www.pingxx.com/api#支付渠道-extra-参数说明
+                {"extra", new Dictionary<string,object>{
+                    //必填参数 。商品 ID，1-32 位字符串。此 id 为二维码中包含的商品 ID，商户自行维护
+                    {"product_id", "123456789"},
+                    // 可选，只能填写此值 "no_credit" 
+                    {"limit_pay", "no_credit"},
+                    //必填参数 。商品列表，上送格式参照下面示例。
+                    //    字段解释：goods_name:商品名称，goods_num:数量 1-5500
+                    {"goods_list",new List<Dictionary<string,object>>{
+                        new Dictionary<string,object>{
+                            {"goods_name","iPhone6s 16G"},
+                            {"goods_num","1"}
+                        },
+                        new Dictionary<string,object>{
+                            {"goods_name","iPhone6s 32G"},
+                            {"goods_num","1"}
+                            
+                        }
+                    }}
+                }},
+                // 可选：订单失效时间，用 Unix 时间戳表示。时间范围在订单创建后的 1 分钟到 15 天，默认为 1 天,创建时间以 Ping++ 服务器时间为准。 微信对该参数的有效值限制为 2 小时内；银联对该参数的有效值限制为 1 小时内。
+                {"time_expire", timeExpire()},
+                // 可选：订单附加说明，最多 255 个 Unicode 字符。
+                {"description", "Your chare description"}
+            };
+
+            return Charge.Create(chParams);
+        }
+
+        /// <summary>
+        /// charge创建- cb_wx_pub_scan 渠道
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
+        public static Charge cbWxPubScanCharge(string appId)
+        {
+            //交易请求参数，这里只列出必填参数，可选参数请参考 https://www.pingxx.com/api#创建-charge-对象
+            var chParams = new Dictionary<string, object>
+            {
+                // 推荐使用 8-20 位，要求数字或字母，不允许其他字符
+                {"order_no", new Random().Next(1, 999999999).ToString()},
+                // 订单总金额, 人民币单位：分（如订单总金额为 1 元，此处请填 100）
+                {"amount", 1},
+                // 支付使用的第三方支付渠道取值，请参考： https://www.pingxx.com/api#支付渠道属性值
+                {"channel", "cb_wx_pub_scan"},
+                // 3 位 ISO 货币代码，人民币为  cny 。
+                {"currency", "cny"},
+                // 商品标题，该参数最长为 32 个 Unicode 字符，银联全渠道（ upacp / upacp_wap ）限制在 32 个字节。
+                {"subject", "Your Subject"},
+                // 商品描述信息，该参数最长为 128 个 Unicode 字符， yeepay_wap 对于该参数长度限制为 100 个 Unicode 字符。
+                {"body", "Your Body"},
+                // 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
+                {"client_ip", "127.0.0.1"},
+                {"app", new Dictionary<string, string> {{"id", appId}}},
+                // 特定渠道发起交易时需要的额外参数，以及部分渠道支付成功返回的额外参数，详细参考 https://www.pingxx.com/api#支付渠道-extra-参数说明
+                {"extra", new Dictionary<string,object>{
+                    //必填参数. 客户端软件中展示的条码值，扫码设备扫描获取
+                    {"scan_code", "134566668888"},
+                    //必填参数.终端号，要求不同终端此号码不一样，如A01、SH008等
+                    {"terminal_id", "SH008"},
+                    // 可选，指定支付方式，指定不能使用信用卡支付可设置为 no_credit 
+                    {"limit_pay", "no_credit"},
+                    //必填参数 。商品列表，上送格式参照下面示例。
+                    //    字段解释：goods_name:商品名称，goods_num:数量 1-5500
+                    {"goods_list",new List<Dictionary<string,object>>{
+                        new Dictionary<string,object>{
+                            {"goods_name","iPhone6s 16G"},
+                            {"goods_num","1"}
+                        },
+                        new Dictionary<string,object>{
+                            {"goods_name","iPhone6s 32G"},
+                            {"goods_num","1"}
+                            
+                        }
+                    }}
+                }},
+                // 可选：订单失效时间，用 Unix 时间戳表示。时间范围在订单创建后的 1 分钟到 15 天，默认为 1 天,创建时间以 Ping++ 服务器时间为准。 微信对该参数的有效值限制为 2 小时内；银联对该参数的有效值限制为 1 小时内。
+                {"time_expire", timeExpire()},
+                // 可选：订单附加说明，最多 255 个 Unicode 字符。
+                {"description", "Your chare description"}
             };
 
             return Charge.Create(chParams);

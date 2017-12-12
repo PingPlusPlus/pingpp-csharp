@@ -25,9 +25,10 @@ namespace Example.Example
                 {"percent_off", 20},
                 {"amount_available", 50000}, // 满减属性：满 500 可用
                 {"max_circulation", 100}, // 优惠券最大生成数量
+                {"max_user_circulation", 2}, //单个用户优惠券最大生成数量，当已生成数量达到最大值时，不能再生成优惠券，删除优惠券不会影响该值；取值范围为 1 - 100，默认值为 1。
                 {"expiration", new Dictionary<string, object>
                 {
-                    {"duration", 604800}    
+                    {"duration", 604800}
                 }
                 }
             };
@@ -40,7 +41,7 @@ namespace Example.Example
             Console.WriteLine("****查询 Coupon Template 对象****");
             Console.WriteLine(CouponTemplate.Retrieve(appId, couTmpl.Id));
             Console.WriteLine();
-            
+
             Console.WriteLine("****查询 Coupon Template 对象列表****");
             Console.WriteLine(CouponTemplate.List(appId));
             Console.WriteLine();
@@ -50,7 +51,7 @@ namespace Example.Example
             Console.WriteLine();
 
             Console.WriteLine("****更新 Coupon Template 对象****");
-            Console.WriteLine(CouponTemplate.Update(appId, couTmpl.Id, new Dictionary<string, object>{{"metadata", new Dictionary<string, string> {{"品类", "数码家电类"}}}}));
+            Console.WriteLine(CouponTemplate.Update(appId, couTmpl.Id, new Dictionary<string, object> { { "metadata", new Dictionary<string, string> { { "品类", "数码家电类" } } } }));
             Console.WriteLine();
 
             Console.WriteLine("****删除 Coupon Template 对象****");
@@ -60,7 +61,7 @@ namespace Example.Example
             var uid = "test_user_001";
             var uid2 = "test_user_002";
             var uid3 = "test_user_003";
-            var cou = Coupon.Create(appId, uid, new Dictionary<string, object>{{"coupon_template", couTmpl.Id}});
+            var cou = Coupon.Create(appId, uid, new Dictionary<string, object> { { "coupon_template", couTmpl.Id } });
             Console.WriteLine("****创建 Coupon Template 对象****");
             Console.WriteLine(cou);
             Console.WriteLine();

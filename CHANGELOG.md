@@ -1,3 +1,7 @@
+### 1.4.2
+- 新增
+    - 支付宝/微信跨境渠道创建charge支付示例
+    - 优惠券模板对象新增 user_times_circulated 字段
 ### 1.4.1
 -新增
     - 分润(royalty)对象返回新增royalty_settlement字段

@@ -30,7 +30,7 @@ namespace Example
                 Examples(appId);
 
                 // 用户账户类相关示例
-                AccountExamples(appId);
+                //AccountExamples(appId);
 
                 // 应用内支付类相关示例
                 //InAppExamples(appId);
@@ -45,15 +45,15 @@ namespace Example
 
         private static void Examples(string appId)
         {
-            //var ch = ChargeDemo.Example(appId);
-            //RedEnvelopeDemo.Example(appId);
-            //TransferDemo.Example(appId);
-            // VerifyDemo.Example();
-            // WebhooksDemo.Example();
-            //IdentificationDemo.Example(appId);
-            //CustomsDemo.Example(appId, "ch_avbPyT4aDCe1r9W1eHfv1SuP");
+            ChargeDemo.Example(appId);
+            RedEnvelopeDemo.Example(appId);
+            TransferDemo.Example(appId);
+            VerifyDemo.Example();
+            WebhooksDemo.Example();
+            IdentificationDemo.Example(appId);
+            CustomsDemo.Example(appId, "ch_avbPyT4aDCe1r9W1eHfv1SuP");
             //批量退款示例
-            //BatchRefundDemo.Example(appId);
+            BatchRefundDemo.Example(appId);
         }
 
         private static void AccountExamples(string appId)
