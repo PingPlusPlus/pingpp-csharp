@@ -60,7 +60,7 @@
     <Compile Include="Example\RoyaltyTransactionDemo.cs" />
     <Compile Include="Example\SettleAccountDemo.cs" />
     <Compile Include="Example\SubAppDemo.cs" />
-    <Compile Include="Example\BatchRrefundDemo.cs" />
+    <Compile Include="Example\BatchRefundDemo.cs" />
     <Compile Include="Example\BatchTransferDemo.cs" />
     <Compile Include="Example\CouponDemo.cs" />
     <Compile Include="Example\BalanceDemo.cs" />
