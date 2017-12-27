@@ -1,9 +1,12 @@
+# ChangeLog
+
 ### 1.4.2
 - 新增
     - 支付宝/微信跨境渠道创建charge支付示例
     - 优惠券模板对象新增 user_times_circulated 字段
+
 ### 1.4.1
--新增
+- 新增
     - 分润(royalty)对象返回新增royalty_settlement字段
     - 分润结算明细(royalty_transaction)对象新增failure_msg,transfer字段
     - 优惠券模板(coupon_template)对象创建请求新增max_user_circulation参数
