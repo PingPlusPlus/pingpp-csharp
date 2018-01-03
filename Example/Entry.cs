@@ -11,7 +11,7 @@ namespace Example
         /// <summary>
         /// 作为示例的入口，你可以使用示例的配置参数或者更改为你在 Ping++ 注册后从管理平台中获得的配置参数
         /// 示例分为 3 类：收款/付款类、用户账户类、应用内支付类，你可以通过取消/增加注释的方式根据你的业务场景选择需要调试的接口
-        /// 
+        ///
         /// </summary>
         private static void Main(string[] args)
         {
@@ -106,8 +106,6 @@ namespace Example
         private static void InAppExamples(string appId)
         {
             InAppChargeDemo.Example(appId);
-            // CardDemo.Example(appId);
-            // CustomerDemo.Example(appId);
         }
     }
 }

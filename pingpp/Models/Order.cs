@@ -37,6 +37,9 @@ namespace Pingpp.Models
         [JsonProperty("merchant_order_no")]
         public string MerchantOrderNo { get; set; }
 
+        [JsonProperty("amount")]
+        public int Amount { get; set ;}
+
         [JsonProperty("coupon_amount")]
         public int? CouponAmount { get; set; }
 
@@ -78,16 +81,11 @@ namespace Pingpp.Models
         [JsonProperty("metadata")]
         public Dictionary<string, object> Metadata { get; set; }
 
-        [JsonProperty("credential")]
-        public object Credential { get; set; }
-
         [JsonProperty("charge_essentials")]
         public Dictionary<string,object> ChargeEssentials { get; set; }
 
         [JsonProperty("available_balance")]
         public int AvailableBalance { set; get; }
-        [JsonProperty("user_from")]
-        public string UserFrom { set; get; }
 
         [JsonProperty("receipt_app")]
         public string ReceiptApp { get; set; }
@@ -187,7 +185,7 @@ namespace Pingpp.Models
         /// <param name="id"></param>
         /// <param name="chargeId"></param>
         /// <returns></returns>
-        public static Charge ChargeRetrieve(string id, string chargeId) 
+        public static Charge ChargeRetrieve(string id, string chargeId)
         {
             var url = string.Format("{0}/{1}/charges/{2}", BaseUrl, id, chargeId);
             var charge = Requestor.DoRequest(url, "GET");

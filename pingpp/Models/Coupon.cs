@@ -31,6 +31,9 @@ namespace Pingpp.Models
         [JsonProperty("metadata")]
         public Dictionary<string, object> Metadata { get; set; }
 
+        [JsonProperty("user_times_circulated")]
+        public int UserTimesCirculated {get; set;}
+
         [JsonProperty("order")]
         public string Order { get; set; }
 

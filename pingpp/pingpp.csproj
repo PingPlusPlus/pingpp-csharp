@@ -84,8 +84,6 @@
     <Compile Include="Models\Withdrawal.cs" />
     <Compile Include="Models\BalanceTransactionList.cs" />
     <Compile Include="Models\BalanceTransaction.cs" />
-    <Compile Include="Models\Card.cs" />
-    <Compile Include="Models\CardList.cs" />
     <Compile Include="Models\Coupon.cs" />
     <Compile Include="Models\CouponList.cs" />
     <Compile Include="Models\CouponTemplateList.cs" />
@@ -100,8 +98,6 @@
     <Compile Include="Models\RefundList.cs" />
     <Compile Include="Models\RedEnvelopeList.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\SmsCode.cs" />
-    <Compile Include="Models\Token.cs" />
     <Compile Include="Models\TransferList.cs" />
     <Compile Include="Models\ChargeList.cs" />
     <Compile Include="Models\Error.cs" />
@@ -124,7 +120,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
