@@ -52,10 +52,6 @@ namespace Example.Example
             };
             Console.WriteLine(Transfer.List(new Dictionary<string, object> { { "limit", 3 } }));
             Console.WriteLine();
-
-            Console.WriteLine("****更新 Transfer 对象****");
-            Console.WriteLine(Transfer.Cancel(tr.Id));
-            Console.WriteLine();
         }
 
         /// <summary>

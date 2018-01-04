@@ -53,10 +53,6 @@ namespace Example.Example
             Console.WriteLine("****查询批量转账明细 batch_transfers 对象****");
             Console.WriteLine(BatchTransfer.List(listParams));
             Console.WriteLine();
-
-            Console.WriteLine("****更新批量企业付款（银行卡） Batch transfer 对象****");
-            Console.WriteLine(BatchTransfer.Cancel(batchTranster.Id));
-            Console.WriteLine();
         }
 
         /// <summary>

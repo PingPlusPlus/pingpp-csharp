@@ -79,13 +79,6 @@ namespace Pingpp.Models
             return Mapper<Transfer>.MapFromJson(transfer);
         }
 
-        public static Transfer Cancel(string trId)
-        {
-            var url = string.Format("{0}/{1}", BaseUrl, trId);
-            var transfer = Requestor.DoRequest(url, "PUT", new Dictionary<string,object>{{"status", "canceled"}});
-            return Mapper<Transfer>.MapFromJson(transfer);
-        }
-
         public static TransferList List(Dictionary<string, object> listParams = null)
         {
             var url = Requestor.FormatUrl(BaseUrl, Requestor.CreateQuery(listParams));

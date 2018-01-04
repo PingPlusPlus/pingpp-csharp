@@ -4,6 +4,7 @@
 - 修改
     - order移除 credential,user_from字段,添加amount 字段.
     - 移除无卡接口类及示例
+    - 移除转账/批量转账取消接口
     - 更新Newtonsoft.Json 版本至9.0.1
 - 新增
     - 优惠券对象新增 user_times_circulated 字段

@@ -84,15 +84,6 @@ namespace Pingpp.Models
             return Mapper<BatchTransferList>.MapFromJson(batchTranster);
         }
 
-        public static BatchTransfer Cancel(String batchTransferNo)
-        {
-            var cancelParams = new Dictionary<string, object> {
-                {"status", "canceled"}
-            };
-            var batchTransfer = Requestor.DoRequest(String.Format("{0}/{1}", BaseUrl, batchTransferNo), "PUT", cancelParams, true);
-            return Mapper<BatchTransfer>.MapFromJson(batchTransfer);
-        }
-
         /// <summary>
         /// 更新批量付款对象（仅unionpay渠道支持）
         /// </summary>

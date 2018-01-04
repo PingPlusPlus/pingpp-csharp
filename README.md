@@ -102,10 +102,7 @@ Transfer tr = Transfer.Retrieve(String id);
 ```c#
 TransferList trs = Transfer.List(Dictionary<String, Object> listParam);
 ```
-#### 更新Transter 对象
-```C#
-Transfer.Cancel(string Id);
-```
+
 ### 身份认证请求
 #### 创建身份认证请求
 ```c#
@@ -151,11 +148,6 @@ BatchTransfer.Retrieve(string batchTransterId)
 #### 获取批量付款列表
 ```c#
 BatchTransfer.List(Dictionary<string, object> btParams)
-```
-
-#### 取消批量付款
-```c#
-BatchTransfer.Cancel(String btId)
 ```
 
 ### Event
