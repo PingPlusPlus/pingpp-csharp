@@ -83,18 +83,5 @@ namespace Pingpp.Models
             var batchTranster = Requestor.DoRequest(url, "GET");
             return Mapper<BatchTransferList>.MapFromJson(batchTranster);
         }
-
-        /// <summary>
-        /// 更新批量付款对象（仅unionpay渠道支持）
-        /// </summary>
-        /// <param name="batchTransferNo"></param>
-        /// <param name="updateParams"></param>
-        /// <returns></returns>
-        public static BatchTransfer Update(string batchTransferNo, Dictionary<string, object> updateParams)
-        {
-            var url = string.Format("{0}/{1}", BaseUrl, batchTransferNo);
-            var batchTransfer = Requestor.DoRequest(url, "PUT", updateParams);
-            return Mapper<BatchTransfer>.MapFromJson(batchTransfer);
-        }
     }
 }
