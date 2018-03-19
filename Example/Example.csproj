@@ -50,14 +50,16 @@
   <ItemGroup>
     <Compile Include="Entry.cs" />
     <Compile Include="Example\BalanceBonusDemo.cs" />
+    <Compile Include="Example\BalanceSettlementDemo.cs" />
     <Compile Include="Example\BalanceTransactionDemo.cs" />
     <Compile Include="Example\BalanceTransferDemo.cs" />
     <Compile Include="Example\BatchWithdrawalDemo.cs" />
+    <Compile Include="Example\CardInfoDemo.cs" />
     <Compile Include="Example\ChannelDemo.cs" />
     <Compile Include="Example\RoyaltyDemo.cs" />
     <Compile Include="Example\RoyaltySettlementDemo.cs" />
     <Compile Include="Example\RoyaltyTemplateDemo.cs" />
-    <Compile Include="Example\RoyaltyTransactionDemo.cs" />
+    <Compile Include="Example\RoyaltyTransactionDemo.cs" /> 
     <Compile Include="Example\SettleAccountDemo.cs" />
     <Compile Include="Example\SubAppDemo.cs" />
     <Compile Include="Example\BatchRefundDemo.cs" />

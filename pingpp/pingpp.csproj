@@ -53,6 +53,8 @@
     <Compile Include="Exception\PingppException.cs" />
     <Compile Include="Models\BalanceBonus.cs" />
     <Compile Include="Models\BalanceBonusList.cs" />
+    <Compile Include="Models\BalanceSettlement.cs" />
+    <Compile Include="Models\BalanceSettlementList.cs" />
     <Compile Include="Models\BalanceTransfer.cs" />
     <Compile Include="Models\BalanceTransferList.cs" />
     <Compile Include="Models\BatchRefund.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="Models\BatchWithdrawalList.cs" />
     <Compile Include="Models\BatchTransferList.cs" />
     <Compile Include="Models\BatchWithdrawal.cs" />
+    <Compile Include="Models\CardInfo.cs" />
     <Compile Include="Models\RechargeList.cs" />
     <Compile Include="Models\RechargeRefund.cs" />
     <Compile Include="Models\RoyaltyList.cs" />

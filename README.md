@@ -641,4 +641,19 @@ BalanceBonus.Retrieve(appId, string balanceBonusId)
 BalanceBonus.List(appId);
 ```
 
+#### 用户余额结算列表
+```c#
+BalanceSettlement.List(appId)
+```
+
+#### 用户余额结算查询
+```c#
+BalanceSettlement.Retrieve(appId, string balaneSettlementId)
+```
+
+### card_bin查询
+```c#
+CardInfo.Query(List<string> params)
+```
+
 详细信息请参考 [API 文档](https://pingxx.com/document/api)

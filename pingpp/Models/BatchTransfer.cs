@@ -56,7 +56,7 @@ namespace Pingpp.Models
         /// <returns></returns>
         public static BatchTransfer Create(Dictionary<string, object> btParams) 
         {
-            var batchTranster = Requestor.DoRequest(BaseUrl, "POST", btParams, true);
+            var batchTranster = Requestor.DoRequest(BaseUrl, "POST", btParams);
             return Mapper<BatchTransfer>.MapFromJson(batchTranster);
         }
 

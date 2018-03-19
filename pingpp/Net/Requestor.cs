@@ -10,6 +10,7 @@ using System.Web;
 using Pingpp.Exception;
 using Pingpp.Models;
 using Pingpp.Utils;
+using System.Runtime.InteropServices;
 
 namespace Pingpp.Net
 {
@@ -19,14 +20,26 @@ namespace Pingpp.Net
         {
             var request = (HttpWebRequest)WebRequest.Create(ApiBase + path);
             request.Headers.Add("Authorization", string.Format("Bearer {0}", ApiKey));
-            request.Headers.Add("Pingplusplus-Version", ApiVersion);
+            if (!string.IsNullOrEmpty(ApiVersion)) {
+                request.Headers.Add("Pingplusplus-Version", ApiVersion);
+            }
+
             request.Headers.Add("Pingplusplus-Request-Timestamp", timestamp);
             request.Headers.Add("Accept-Language", AcceptLanguage);
             if (!string.IsNullOrEmpty(sign))
             {
                 request.Headers.Add("Pingplusplus-Signature", sign);
             }
-            request.UserAgent = "Pingpp C# SDK version" + Version;
+            var userAgent = new Dictionary<string, object> { 
+                {"lang", "csharp"},
+                {"publisher", "pingpp"},
+                {"lang.version", Environment.Version.ToString()},
+                {"os.version", Environment.OSVersion.ToString()},
+                {"bindings.version", Version}
+            };
+            request.Headers.Add("Pingpp-Client-User-Agent", JsonConvert.SerializeObject(userAgent));
+
+            request.UserAgent = "Pingpp/v1 CsharpBindings/" + Version;
             request.ContentType = "application/json;charset=utf-8";
             request.Timeout = DefaultTimeout;
             request.ReadWriteTimeout = DefaultReadAndWriteTimeout;
@@ -36,7 +49,7 @@ namespace Pingpp.Net
             return request;
         }
 
-        internal static string DoRequest(string path, string method, Dictionary<string, object> param = null, bool isValidateUri = true)
+        internal static string DoRequest(string path, string method, Dictionary<string, object> param = null)
         {
             if (string.IsNullOrEmpty(ApiKey))
             {
@@ -62,8 +75,7 @@ namespace Pingpp.Net
                 {
                     if (PrivateKey != null)
                     {
-                        var uri = isValidateUri ? path : "";
-                        sign = RsaUtils.RsaSign(body + uri + timestamp, PrivateKey);
+                        sign = RsaUtils.RsaSign(body + path + timestamp, PrivateKey);
                     }
 
                 }
@@ -94,7 +106,7 @@ namespace Pingpp.Net
                 if ((int)statusCode == 502 && BadGateWayMatch && MaxRetry < MaxNetworkRetries)
                 {
                     MaxRetry ++;
-                    DoRequest(path, method, param, isValidateUri);
+                    DoRequest(path, method, param);
                 }
                 var errors = Mapper<Error>.MapFromJson(ReadStream(e.Response.GetResponseStream()), "error");
 

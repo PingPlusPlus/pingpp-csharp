@@ -269,7 +269,8 @@ namespace Example.Example
                 {"type", "b2c"},
                 // 备注信息。渠道为 wx_pub 时，最多 99 个英文和数字的组合或最多 33 个中文字符，不可以包含特殊字符；
                 {"description", "Description"},
-                // 接收者 id， 微信企业付款时为用户在 wx_pub 下的 open_id ;
+                // 接收者 id
+                {"recipient", "test_user_001"},
                 {"app", new Dictionary<string, string> {{"id", appId}}}
             };
 

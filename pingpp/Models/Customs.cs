@@ -65,7 +65,7 @@ namespace Pingpp.Models
 
         public static Customs Create(Dictionary<string, object> cuParams)
         {
-            var customs = Requestor.DoRequest(BaseUrl, "POST", cuParams, false);
+            var customs = Requestor.DoRequest(BaseUrl, "POST", cuParams);
             return Mapper<Customs>.MapFromJson(customs);
         }
 

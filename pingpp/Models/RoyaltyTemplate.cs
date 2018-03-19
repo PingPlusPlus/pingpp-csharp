@@ -53,7 +53,7 @@ namespace Pingpp.Models
         /// <returns></returns>
         public static RoyaltyTemplate Update(string royaltyTemplateId, Dictionary<string, object> updateParams)
         {
-            var royaltyTemplate = Requestor.DoRequest(string.Format("{0}/{1}", BaseUrl, royaltyTemplateId), "PUT", updateParams, true);
+            var royaltyTemplate = Requestor.DoRequest(string.Format("{0}/{1}", BaseUrl, royaltyTemplateId), "PUT", updateParams);
             return Mapper<RoyaltyTemplate>.MapFromJson(royaltyTemplate);
         }
 

@@ -50,7 +50,7 @@ namespace Pingpp.Models
         private const string BaseUrl = "/v1/batch_refunds";
         public static BatchRefund Create(Dictionary<string, object> bfParams)
         {
-            var re = Requestor.DoRequest(BaseUrl, "POST", bfParams, false);
+            var re = Requestor.DoRequest(BaseUrl, "POST", bfParams);
             return Mapper<BatchRefund>.MapFromJson(re);
         }
 

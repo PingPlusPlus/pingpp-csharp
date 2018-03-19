@@ -7,10 +7,10 @@ namespace Pingpp
 {
     public abstract class Pingpp
     {
-        public static volatile string ApiVersion = "2018-01-03";
+        public static volatile string ApiVersion;
         public static volatile string AcceptLanguage = "zh-CN";
         public static volatile string ApiBase = "https://api.pingxx.com";
-        public static volatile string Version = "1.4.3";
+        public static volatile string Version = "1.4.4";
         public static volatile bool BadGateWayMatch = true;
         public static volatile int MaxNetworkRetries = 1;
         protected static volatile int MaxRetry = 0;

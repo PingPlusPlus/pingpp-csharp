@@ -68,7 +68,7 @@ namespace Pingpp.Models
 
         public static Transfer Create(Dictionary<string, object> trParams)
         {
-            var transfer = Requestor.DoRequest(BaseUrl, "POST", trParams, false);
+            var transfer = Requestor.DoRequest(BaseUrl, "POST", trParams);
             return Mapper<Transfer>.MapFromJson(transfer);
         }
 

@@ -96,7 +96,7 @@ namespace Pingpp.Models
 
         public static Charge Create(Dictionary<string, object> chParams)
         {
-            var ch = Requestor.DoRequest(BaseUrl, "POST", chParams, false);
+            var ch = Requestor.DoRequest(BaseUrl, "POST", chParams);
             return Mapper<Charge>.MapFromJson(ch);
         }
 
@@ -144,7 +144,7 @@ namespace Pingpp.Models
         public static Charge Reverse(string id, Dictionary<string,object> chParams = null) 
         {
             var url = string.Format("{0}/{1}/reverse", BaseUrl, id);
-            var ch = Requestor.DoRequest(url, "POST", chParams, true);
+            var ch = Requestor.DoRequest(url, "POST", chParams);
             return Mapper<Charge>.MapFromJson(ch);
         }
     }

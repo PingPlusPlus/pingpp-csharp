@@ -35,7 +35,12 @@ namespace Example.Example
                         {"user", "user_002"},
                         {"amount",1}
                     }
-                }}
+                }},
+                // 余额结算信息,支付成功时，将支付金额（扣除用户手续费后）自动结算到指定用户余额账户。仅对开通了 balance 渠道的应用有效。
+                // {"balance_settlement", new Dictionary<string, object>{
+                //     {"user", "user_001"},
+                //     {"user_fee", 0}
+                // }}
             };
 
             var or = Order.Create(orParams);

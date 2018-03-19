@@ -52,6 +52,7 @@ namespace Example
             WebhooksDemo.Example();
             IdentificationDemo.Example(appId);
             CustomsDemo.Example(appId, "ch_avbPyT4aDCe1r9W1eHfv1SuP");
+            CardInfoDemo.Example(appId);
             //批量退款示例
             BatchRefundDemo.Example(appId);
         }
@@ -101,6 +102,8 @@ namespace Example
             BalanceTransferDemo.Example(appId);
             //分润模板示例
             RoyaltyTemplateDemo.Example(appId);
+            //余额结算对象示例
+            BalanceSettlementDemo.Example(appId);
         }
 
         private static void InAppExamples(string appId)
