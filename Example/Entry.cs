@@ -46,6 +46,7 @@ namespace Example
         private static void Examples(string appId)
         {
             ChargeDemo.Example(appId);
+            AgreementDemo.Example(appId);
             RedEnvelopeDemo.Example(appId);
             TransferDemo.Example(appId);
             VerifyDemo.Example();

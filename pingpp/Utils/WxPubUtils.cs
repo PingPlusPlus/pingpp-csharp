@@ -83,6 +83,38 @@ namespace Pingpp.Utils
             return oAuthResult.Openid;
         }
 
+        /// <summary>
+        /// 获取微信小程序openid
+        /// </summary>
+        /// <param name="appId">微信小程序应用唯一标识</param>
+        /// <param name="appSecret">微信小程序应用密钥（注意保密）</param>
+        /// <param name="code">授权code, 登录时获取的 code</param>
+        /// <returns>微信小程序用户唯一标识</returns>
+        public static string GetWxLiteOpenId(string appId, string appSecret, string code)
+        {
+            var ret = GetRequest(CreateOauthUrlForWxLiteOpenid(appId, appSecret, code));
+            var result = Mapper<WxLiteOauthResult>.MapFromJson(ret);
+            return result.Openid;
+        }
+
+        /// <summary>
+        ///生成小微信程序 获取openid 的 URL 地址
+        /// </summary>
+        /// <param name="appId">微信小程序应用唯一标识</param>
+        /// <param name="appSecret">微信小程序应用密钥（注意保密）</param>
+        /// <param name="code">授权code, 登录时获取的 code</param>
+        private static string CreateOauthUrlForWxLiteOpenid(string appId, string appSecret, string code)
+        {
+            var data = new Dictionary<string, string>
+            {
+                {"appid" , appId},
+                {"secret", appSecret},
+                {"js_code", code},
+                {"grant_type", "authorization_code"}
+            };
+
+            return string.Format("https://api.weixin.qq.com/sns/jscode2session?{0}", HttpBuildQuery(data));
+        }
 
         private static string HttpBuildQuery(Dictionary<string, string> queryString)
         {

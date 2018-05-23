@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exception\PingppException.cs" />
+    <Compile Include="Models\Agreement.cs" />
+    <Compile Include="Models\AgreementList.cs" />
     <Compile Include="Models\BalanceBonus.cs" />
     <Compile Include="Models\BalanceBonusList.cs" />
     <Compile Include="Models\BalanceSettlement.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\OAuthResult.cs" />
     <Compile Include="Utils\RsaUtils.cs" />
+    <Compile Include="Utils\WxLiteOauthResult.cs" />
     <Compile Include="Utils\WxPubUtils.cs" />
   </ItemGroup>
   <ItemGroup>

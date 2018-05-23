@@ -657,3 +657,33 @@ CardInfo.Query(List<string> params)
 ```
 
 详细信息请参考 [API 文档](https://pingxx.com/document/api)
+
+### 创建签约
+```c#
+Agreement.Create( Dictionary<string, object> createParams)
+```
+
+### 查询签约状态
+```c#
+Agreement.Retrieve(string Id)
+```
+
+### 解除签约
+```c#
+Agreement.Cancel(string Id)
+```
+
+### 查询签约列表
+```c#
+Agreement.List( Dictionary<string, object> listParams)
+```
+
+### 微信公众号获取openid
+```c#
+WxPubUtils.GetOpenId(string appId, string appSecret, string code)
+```
+
+### 微信小程序获取openid
+```c#
+WxPubUtils.GetWxLiteOpenId(string appId, string appSecret, string code)
+```
