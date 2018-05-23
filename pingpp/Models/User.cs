@@ -31,7 +31,7 @@ namespace Pingpp.Models
         [JsonProperty("available_balance")]
         public long AvailableBalance { get; set; }
         [JsonProperty("withdrawable_balance")]
-        public int WithdrawableBalance{ get; set; }
+        public long WithdrawableBalance { get; set; }
 
         [JsonProperty("created")]
         public int? Created { get; set; }
