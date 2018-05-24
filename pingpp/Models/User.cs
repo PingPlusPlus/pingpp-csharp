@@ -29,9 +29,9 @@ namespace Pingpp.Models
         public string Avatar { get; set; }
 
         [JsonProperty("available_balance")]
-        public int? AvailableBalance { get; set; }
+        public long AvailableBalance { get; set; }
         [JsonProperty("withdrawable_balance")]
-        public int WithdrawableBalance{ get; set; }
+        public long WithdrawableBalance { get; set; }
 
         [JsonProperty("created")]
         public int? Created { get; set; }

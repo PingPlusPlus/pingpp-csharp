@@ -85,7 +85,7 @@ namespace Pingpp.Models
         public Dictionary<string,object> ChargeEssentials { get; set; }
 
         [JsonProperty("available_balance")]
-        public int AvailableBalance { set; get; }
+        public long AvailableBalance { set; get; }
 
         [JsonProperty("receipt_app")]
         public string ReceiptApp { get; set; }
