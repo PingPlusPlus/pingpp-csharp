@@ -1,4 +1,9 @@
 # ChangeLog
+### 1.5.0
+- 修改
+    - 修改目标框架为.NET Framework 4.6
+    - 修复 Pingpp.WxPubUtils.GetSignature 生成微信公众号 jssdk signature 返回null的bug
+
 ### 1.4.5
 - 新增
     - 新增签约接口

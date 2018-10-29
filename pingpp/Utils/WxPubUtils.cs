@@ -10,7 +10,7 @@ using System.IO;
 using Pingpp.Exception;
 using Pingpp.Models;
 using Pingpp.Net;
-
+using System.Security.Cryptography;
 
 namespace Pingpp.Utils
 {
@@ -209,7 +209,7 @@ namespace Pingpp.Utils
                 return null;
 
             var chargeJson = JsonConvert.DeserializeObject<Charge>(charge);
-            var credential = chargeJson.Credential.ToString();
+            var credential = JsonConvert.SerializeObject(chargeJson.Credential).ToString();
             if (string.IsNullOrEmpty(credential) || !chargeJson.ToString().Contains("credential"))
             {
                 return null;
@@ -232,7 +232,12 @@ namespace Pingpp.Utils
                              "&timestamp=" + cre.SelectToken("timeStamp") +
                              "&url=" + url;
 
-            return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(string1, "SHA1");
+            SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider();
+            byte[] str1 = Encoding.UTF8.GetBytes(string1);
+            byte[] str2 = sha1.ComputeHash(str1);
+            sha1.Clear();
+            (sha1 as System.IDisposable).Dispose();
+            return System.Convert.ToBase64String(str2);
         }
 
     }
