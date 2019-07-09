@@ -56,6 +56,10 @@ namespace Example
             CardInfoDemo.Example(appId);
             //批量退款示例
             BatchRefundDemo.Example(appId);
+            SplitReceiverDemo.Example(appId);
+            SplitProfitDemo.Example(appId);
+            ProfitTransactionDemo.Example(appId);
+            SubBankDemo.Example(appId);
         }
 
         private static void AccountExamples(string appId)

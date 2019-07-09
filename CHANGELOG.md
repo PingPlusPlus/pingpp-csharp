@@ -1,4 +1,8 @@
 # ChangeLog
+### 1.6.0
+- 新增
+    - 新增：SplitProfit、SplitReceiver、ProfitTransaction、SubBank 相关接口
+
 ### 1.5.0
 - 修改
     - 修改目标框架为.NET Framework 4.6

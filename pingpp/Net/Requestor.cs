@@ -215,7 +215,7 @@ namespace Pingpp.Net
 
         private static string UrlEncode(string str)
         {
-            return string.IsNullOrEmpty(str) ? null : HttpUtility.UrlEncode(str, Encoding.UTF8);
+            return string.IsNullOrEmpty(str) ? null : Uri.EscapeDataString(str);
         }
 
         internal static string FormatUrl(string url, string query)

@@ -10,7 +10,7 @@ namespace Pingpp
         public static volatile string ApiVersion;
         public static volatile string AcceptLanguage = "zh-CN";
         public static volatile string ApiBase = "https://api.pingxx.com";
-        public static volatile string Version = "1.5.0";
+        public static volatile string Version = "1.6.0";
         public static volatile bool BadGateWayMatch = true;
         public static volatile int MaxNetworkRetries = 1;
         protected static volatile int MaxRetry = 0;

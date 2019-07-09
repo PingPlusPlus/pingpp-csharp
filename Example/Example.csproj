@@ -59,11 +59,14 @@
     <Compile Include="Example\BatchWithdrawalDemo.cs" />
     <Compile Include="Example\CardInfoDemo.cs" />
     <Compile Include="Example\ChannelDemo.cs" />
+    <Compile Include="Example\ProfitTransactionDemo.cs" />
     <Compile Include="Example\RoyaltyDemo.cs" />
     <Compile Include="Example\RoyaltySettlementDemo.cs" />
     <Compile Include="Example\RoyaltyTemplateDemo.cs" />
     <Compile Include="Example\RoyaltyTransactionDemo.cs" />
     <Compile Include="Example\SettleAccountDemo.cs" />
+    <Compile Include="Example\SplitProfitDemo.cs" />
+    <Compile Include="Example\SplitReceiverDemo.cs" />
     <Compile Include="Example\SubAppDemo.cs" />
     <Compile Include="Example\BatchRefundDemo.cs" />
     <Compile Include="Example\BatchTransferDemo.cs" />
@@ -72,6 +75,7 @@
     <Compile Include="Example\CustomsDemo.cs" />
     <Compile Include="Example\IdentificationDemo.cs" />
     <Compile Include="Example\RechargeDemo.cs" />
+    <Compile Include="Example\SubBankDemo.cs" />
     <Compile Include="Example\UserDemo.cs" />
     <Compile Include="Example\OrderDemo.cs" />
     <Compile Include="Example\OrderRefundDemo.cs" />

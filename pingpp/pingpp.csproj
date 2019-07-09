@@ -68,6 +68,8 @@
     <Compile Include="Models\BatchTransferList.cs" />
     <Compile Include="Models\BatchWithdrawal.cs" />
     <Compile Include="Models\CardInfo.cs" />
+    <Compile Include="Models\ProfitTransaction.cs" />
+    <Compile Include="Models\ProfitTransactionList.cs" />
     <Compile Include="Models\RechargeList.cs" />
     <Compile Include="Models\RechargeRefund.cs" />
     <Compile Include="Models\RoyaltyList.cs" />
@@ -80,6 +82,8 @@
     <Compile Include="Models\RoyaltyTransaction.cs" />
     <Compile Include="Models\SettleAccountList.cs" />
     <Compile Include="Models\SettleAccount.cs" />
+    <Compile Include="Models\SplitReceiver.cs" />
+    <Compile Include="Models\SplitReceiverList.cs" />
     <Compile Include="Models\SubAppChannel.cs" />
     <Compile Include="Models\Customs.cs" />
     <Compile Include="Models\DeletedSubAppChannel.cs" />
@@ -87,6 +91,8 @@
     <Compile Include="Models\Recharge.cs" />
     <Compile Include="Models\SubApp.cs" />
     <Compile Include="Models\SubAppList.cs" />
+    <Compile Include="Models\SubBank.cs" />
+    <Compile Include="Models\SubBankList.cs" />
     <Compile Include="Models\Withdrawal.cs" />
     <Compile Include="Models\BalanceTransactionList.cs" />
     <Compile Include="Models\BalanceTransaction.cs" />
@@ -117,6 +123,8 @@
     <Compile Include="Net\Requestor.cs" />
     <Compile Include="Pingpp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\SplitProfit.cs" />
+    <Compile Include="Models\SplitProfitList.cs" />
     <Compile Include="Utils\OAuthResult.cs" />
     <Compile Include="Utils\RsaUtils.cs" />
     <Compile Include="Utils\WxLiteOauthResult.cs" />
